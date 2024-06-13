@@ -10,6 +10,6 @@ There is a Endpoint for Registration and login which return a JWT (Jason Web Tok
 
 If you want to use this in a Docker Container there is a Dockerfile that you can use.
 
-## Project structior
+## Project structur
 
 In this Project I used the Repositorry pattern in combination with Unit of work Pattern
