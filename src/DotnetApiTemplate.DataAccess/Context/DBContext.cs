@@ -1,5 +1,6 @@
 ﻿using DotnetApiTemplate.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace DotnetApiTemplate.DataAccess.Context;
 
@@ -9,6 +10,8 @@ namespace DotnetApiTemplate.DataAccess.Context;
 /// </summary>
 public class DotnetApiTemplateContext : DbContext
 {
+    private readonly IConfiguration? _configuration;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="DotnetApiTemplateContext" /> class.
     /// </summary>
@@ -21,14 +24,16 @@ public class DotnetApiTemplateContext : DbContext
     /// Initializes a new instance of the <see cref="DotnetApiTemplateContext" /> class.
     /// </summary>
     /// <param name="options">The options.</param>
-    public DotnetApiTemplateContext(DbContextOptions<DotnetApiTemplateContext> options) : base(options) { }
+    public DotnetApiTemplateContext(DbContextOptions<DotnetApiTemplateContext> options, IConfiguration configuration) : base(options) 
+    {
+        _configuration = configuration;
+    }
 
-    //TODO: Remove conection string out of the file to the app settings
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer("server=localhost,1433;uid=sa;pwd=Init1234;database=DotnetApiTemplate;TrustServerCertificate=true");
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("Default"));
         }
     }
 
