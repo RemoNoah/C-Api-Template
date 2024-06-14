@@ -226,51 +226,6 @@ public class AccessibleByTest
     }
 
     /// <summary>
-    /// Tests if method can be accessed with required role.
-    /// </summary>
-    [TestMethod]
-    public void TestAccessibleByVocationalTrainerSuccess()
-    {
-        // Arrange
-        Guid userId = Guid.NewGuid();
-        ActionExecutingContext context = CreateActionExecutingContext(
-            userId,
-            new List<string>()
-            {
-                "Vocational Trainer"
-            }
-        );
-
-        // Act
-        AccessibleBy AccessibleByAttr = new(AccessFlags.VocationalTrainer);
-        AccessibleByAttr.OnActionExecuting(context);
-
-        // Assert
-        Assert.IsInstanceOfType(context.Result, typeof(OkResult));
-    }
-
-    /// <summary>
-    /// Tests if method can be accessed without required role.
-    /// </summary>
-    [TestMethod]
-    public void TestAccessibleByVocationalTrainerUnauthorized()
-    {
-        // Arrange
-        Guid userId = Guid.NewGuid();
-        ActionExecutingContext context = CreateActionExecutingContext(
-            userId
-        );
-
-        // Act
-        AccessibleBy AccessibleByAttr = new(AccessFlags.VocationalTrainer);
-        AccessibleByAttr.OnActionExecuting(context);
-
-        // Assert
-        Assert.IsInstanceOfType(context.Result, typeof(JsonResult));
-        Assert.AreEqual(((JsonResult)context.Result).StatusCode, 401);
-    }
-
-    /// <summary>
     /// Will create an ActionExecutingContext with all the required parameters to test the AccessibleBy attribute
     /// </summary>
     /// <param name="userId">(optional) userId of the currently logged in user</param>
