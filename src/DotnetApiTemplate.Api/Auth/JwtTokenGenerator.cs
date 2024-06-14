@@ -8,7 +8,7 @@ namespace DotnetApiTemplate.Api.Auth;
 
 public class JwtTokenGenerator
 {
-    public string GenerateToken(User user, string secretKey, int expirationMinutes)
+    public string GenerateToken(User user, string secretKey, int expirationMinutes, string issuer, string audience)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -24,10 +24,9 @@ public class JwtTokenGenerator
             claims.Add(new Claim(ClaimTypes.Role, role?.Name ?? string.Empty));
         }
 
-        //TODO: Get issuer and audience from configuration
         var token = new JwtSecurityToken(
-            issuer: "DotnetApiTemplate",
-            audience: "DotnetApiTemplate",
+            issuer: issuer,
+            audience: audience,
             claims: claims,
             expires: DateTime.Now.AddMinutes(expirationMinutes),
             signingCredentials: credentials

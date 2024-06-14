@@ -14,6 +14,8 @@ public class UserController : ControllerBase
     private readonly JwtTokenGenerator _jwtGenerator;
     private readonly IUserService _userService;
     private readonly int _expirationMinutes;
+    private readonly string _issuer;
+    private readonly string _audience;
     private readonly string _key;
 
     public UserController(IConfiguration configuration, IUserService userService)
@@ -22,6 +24,8 @@ public class UserController : ControllerBase
         _userService = userService;
         _key = _config.GetValue<string>("Jwt:Key")!;
         _expirationMinutes = _config.GetValue<int>("Jwt:ExpireMinutes");
+        _issuer = _config.GetValue<string>("Jwt:Issuer")!;
+        _audience = _config.GetValue<string>("Jwt:Audience")!;
 
         _jwtGenerator = new JwtTokenGenerator();
     }
@@ -38,7 +42,7 @@ public class UserController : ControllerBase
 
         if (registeredUser != null)
         {
-            return Ok(_jwtGenerator.GenerateToken(registeredUser, _key, _expirationMinutes));
+            return Ok(_jwtGenerator.GenerateToken(registeredUser, _key, _expirationMinutes, _issuer, _audience));
         }
         return BadRequest("Email already Exists");
     }
@@ -56,7 +60,7 @@ public class UserController : ControllerBase
 
         if (logedInUser != null)
         {
-            return Ok(_jwtGenerator.GenerateToken(logedInUser, _key, _expirationMinutes));
+            return Ok(_jwtGenerator.GenerateToken(logedInUser, _key, _expirationMinutes, _issuer, _audience));
         }
         return BadRequest("Username or Passwort are wrong");
     }

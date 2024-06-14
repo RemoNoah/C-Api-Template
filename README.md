@@ -6,6 +6,14 @@ This is a project template for a c# api with enebled Docker support.
 It contains a default User and a Role model which are used to implement a simple Role based Authorization.
 There is a Endpoint for Registration and login which return a JWT (Jason Web Token)
 
+## Setup
+
+Change all Settings in the appsettings.json in the DotnetApiTemplate.Api project.
+The connection string could look like this:
+server=localhost,1433;uid=sa;pwd=Init1234;database=DotnetApiTemplate;TrustServerCertificate=true
+
+Add your wanted roles in the DBContext in the DotnetApiTemplate.Dataaccess project
+
 ## Docker
 
 If you want to use this in a Docker Container there is a Dockerfile that you can use.
@@ -28,13 +36,13 @@ Install ef tool:
 dotnet tool install --global dotnet-ef
 ```
 
-Chnage to dataccess:
+Chnage to dataccess project:
 
 ```sh
 cd .\yourpath\DotnetApiTemplate.DataAccess\Migrations\
 ```
 
-### Update DB
+Update DB
 
 ```shell
 dotnet ef database update
