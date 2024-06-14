@@ -8,7 +8,7 @@ namespace DotnetApiTemplate.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UserController : ControllerBase
+public class AuthController : ControllerBase
 {
     private readonly IConfiguration _config;
     private readonly JwtTokenGenerator _jwtGenerator;
@@ -18,7 +18,7 @@ public class UserController : ControllerBase
     private readonly string _audience;
     private readonly string _key;
 
-    public UserController(IConfiguration configuration, IUserService userService)
+    public AuthController(IConfiguration configuration, IUserService userService)
     {
         _config = configuration;
         _userService = userService;

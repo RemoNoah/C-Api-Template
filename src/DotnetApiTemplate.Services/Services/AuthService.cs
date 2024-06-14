@@ -12,7 +12,7 @@ namespace DotnetApiTemplate.Services.Services;
 /// <param name="unitOfWork"></param>
 /// <param name="authService"></param>
 /// <param name="mapper"></param>
-public class UserService(IUnitOfWork unitOfWork) : IUserService
+public class AuthService(IUnitOfWork unitOfWork) : IUserService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 

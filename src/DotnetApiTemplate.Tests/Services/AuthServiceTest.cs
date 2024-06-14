@@ -6,10 +6,10 @@ using Moq;
 namespace DotnetApiTemplate.Tests.Services;
 
 [TestClass]
-public class UserServiceTest
+public class AuthServiceTest
 {
     private Mock<IUnitOfWork> _uowMock = null!;
-    private UserService _userService = null!;
+    private AuthService _userService = null!;
 
 
     [TestInitialize]

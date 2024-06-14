@@ -9,9 +9,9 @@ using Moq;
 namespace DotnetApiTemplate.Tests.Controllers;
 
 [TestClass]
-public class UserControllerTest
+public class AuthControllerTest
 {
-    private UserController _userController = null!;
+    private AuthController _userController = null!;
     private readonly Mock<IUserService> _userServiceMock = new();
 
     [TestInitialize]
@@ -26,7 +26,7 @@ public class UserControllerTest
             .AddInMemoryCollection(inMemorySettings)
             .Build();
 
-        _userController = new UserController(configuration, _userServiceMock.Object);
+        _userController = new AuthController(configuration, _userServiceMock.Object);
     }
 
     [TestMethod]

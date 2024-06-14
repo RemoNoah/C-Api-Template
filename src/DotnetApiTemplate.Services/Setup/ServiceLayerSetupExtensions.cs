@@ -19,7 +19,7 @@ public static class ServiceLayerSetupExtensions
     /// <param name="configuration">Staged application configuration.</param>
     public static void AddServiceLayer(this IServiceCollection services, IConfiguration configuration)
     {
-        _ = services.AddScoped<IUserService, UserService>();
+        _ = services.AddScoped<IUserService, AuthService>();
         services.AddDataBaseContext(configuration);
         services.AddUnitOfWork();
     }
