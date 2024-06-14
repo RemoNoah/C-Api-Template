@@ -51,9 +51,9 @@ dotnet ef database update
 ### Create new Migration
 
 ```shell
-dotnet ef migration add <migrationName>
+dotnet ef migrations add <migrationName>
 ```
 
 ## Project structur
 
-In this Project I used the Repositorry pattern in combination with Unit of work Pattern
+In this Project I used the Repository pattern in combination with Unit of work Pattern
