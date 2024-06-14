@@ -33,7 +33,7 @@ public class DotnetApiTemplateContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("Default"));
+            optionsBuilder.UseSqlServer(_configuration!.GetConnectionString("Default"));
         }
     }
 
