@@ -11,7 +11,7 @@ namespace DotnetApiTemplate.Api.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IConfiguration _config;
-    private readonly JwtTokenGenerator _jwtGenerator;
+    private readonly JWTokenGenerator _jwtGenerator;
     private readonly IUserService _userService;
     private readonly int _expirationMinutes;
     private readonly string _issuer;
@@ -27,7 +27,7 @@ public class AuthController : ControllerBase
         _issuer = _config.GetValue<string>("Jwt:Issuer")!;
         _audience = _config.GetValue<string>("Jwt:Audience")!;
 
-        _jwtGenerator = new JwtTokenGenerator();
+        _jwtGenerator = new JWTokenGenerator();
     }
 
     [HttpPost]

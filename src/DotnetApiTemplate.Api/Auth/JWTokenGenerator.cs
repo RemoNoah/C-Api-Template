@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DotnetApiTemplate.Api.Auth;
 
-public class JwtTokenGenerator
+public class JWTokenGenerator
 {
     public string GenerateToken(User user, string secretKey, int expirationMinutes, string issuer, string audience)
     {
@@ -17,6 +17,7 @@ public class JwtTokenGenerator
         {
             new Claim(JwtRegisteredClaimNames.Name, user.Username),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
         };
 
         foreach (Role role in user.Roles)
