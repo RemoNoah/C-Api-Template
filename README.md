@@ -10,9 +10,13 @@ There is a Endpoint for Registration and login which return a JWT (Jason Web Tok
 
 Change all Settings in the appsettings.json in the DotnetApiTemplate.Api project.
 The connection string could look like this:
-server=localhost,1433;uid=sa;pwd=Init1234;database=DotnetApiTemplate;TrustServerCertificate=true
 
-Add your wanted roles in the DBContext in the DotnetApiTemplate.Dataaccess project
+```shell
+server=localhost,1433;uid=sa;pwd=Init1234;database=DotnetApiTemplate;TrustServerCertificate=true
+```
+
+Add your wanted roles in the DBContext in the DotnetApiTemplate.Dataaccess project.
+To in the Programm.cs file you can eddit the Rolebased Authorization.
 
 ## Docker
 
