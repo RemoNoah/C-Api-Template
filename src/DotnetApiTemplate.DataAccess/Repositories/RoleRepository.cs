@@ -4,6 +4,9 @@ using DotnetApiTemplate.Domain.Repositories;
 
 namespace DotnetApiTemplate.DataAccess.Repositories;
 
+/// <summary>
+/// Represents a repository for managing <see cref="Role"/> entities, implementing the <see cref="IRoleRepository"/> interface.
+/// </summary>
 public class RoleRepository : GenericRepository<Role>, IRoleRepository
 {
     /// <summary>
