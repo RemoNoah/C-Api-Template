@@ -3,6 +3,7 @@ using DotnetApiTemplate.Domain.DTO.Role;
 using DotnetApiTemplate.Domain.Models;
 using DotnetApiTemplate.Domain.Services;
 using DotnetApiTemplate.Domain.UnitOfWork;
+using System.Data;
 
 namespace DotnetApiTemplate.Services.Services;
 
@@ -49,18 +50,36 @@ public class RoleService(IUnitOfWork unitOfWork, IMapper mapper) : IRoleService
     /// <inheritdoc/>
     public async Task<RoleWithoutIdDTO> Create(RoleWithoutIdDTO role)
     {
-        throw new NotImplementedException();
+        Role newRole = _mapper.Map<Role>(role);
+        newRole.Id = Guid.NewGuid();
+
+        _unitOfWork.Roles.Create(newRole);
+        _ = await _unitOfWork.CompleteAsync();
+        return _mapper.Map<RoleWithoutIdDTO>(newRole);
     }
 
     /// <inheritdoc/>
-    public async Task<RoleWithoutIdDTO> Delete(Guid roleId)
+    public async Task<bool> Delete(Guid roleId)
     {
-        throw new NotImplementedException();
+        Role? existingRole = await _unitOfWork.Roles.GetByIdAsync(roleId);
+        if (existingRole != null)
+        {
+            _unitOfWork.Roles.Delete(existingRole);
+            _ = await _unitOfWork.CompleteAsync();
+            return true;
+        }
+
+        return false;
     }
 
     /// <inheritdoc/>
     public async Task<RoleWithoutIdDTO> Update(RoleWithIdDTO role)
     {
-        throw new NotImplementedException();
+        Role updatedRole = _mapper.Map<Role>(role);
+
+        _unitOfWork.Roles.Update(updatedRole);
+        _ = await _unitOfWork.CompleteAsync();
+
+        return _mapper.Map<RoleWithoutIdDTO>(updatedRole);
     }
 }
