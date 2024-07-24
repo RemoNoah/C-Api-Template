@@ -25,13 +25,11 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     /// <summary>
     /// Gets the database context.
     /// </summary>
-    /// <value>The database context.</value>
     protected DbContext DbContext { get; }
 
     /// <summary>
     /// Gets the data set.
     /// </summary>
-    /// <value>The data set.</value>
     protected DbSet<TEntity> DataSet { get; }
 
     /// <inheritdoc />

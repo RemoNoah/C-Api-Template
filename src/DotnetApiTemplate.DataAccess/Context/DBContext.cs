@@ -40,13 +40,11 @@ public class DotnetApiTemplateContext : DbContext
     /// <summary>
     /// Gets or sets the users.
     /// </summary>
-    /// <value>The users.</value>
     public virtual DbSet<User> Users { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the roles.
     /// </summary>
-    /// <value>The roles.</value>
     public virtual DbSet<Role> Roles { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
