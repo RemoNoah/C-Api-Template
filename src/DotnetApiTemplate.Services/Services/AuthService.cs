@@ -20,16 +20,13 @@ public class AuthService(IUnitOfWork unitOfWork) : IUserService
     public async Task<User?> LoginAsync(UserLoginDTO userLoginDto)
     {
         if (userLoginDto == null)
-        {
             return null;
-        }
 
         User? user = await _unitOfWork.Users.GetFirstOrDefaultAsync(um => um.Email == userLoginDto.Email);
         if (user != null && userLoginDto.Email != string.Empty && !string.IsNullOrEmpty(user.Salt)
             && user.VerifyPassword(userLoginDto.Password))
-        {
             return user;
-        }
+
         return null;
     }
 
@@ -37,16 +34,12 @@ public class AuthService(IUnitOfWork unitOfWork) : IUserService
     public async Task<User?> RegisterAsync(UserRegistrationDTO user)
     {
         if (user == null)
-        {
             return null;
-        }
 
         User? userDTO = (await _unitOfWork.Users.GetAsync(x => x.Email == user.Email)).FirstOrDefault();
 
         if (userDTO != null)
-        {
             return null;
-        }
 
         User userModel = new(user.Password)
         {
@@ -65,6 +58,7 @@ public class AuthService(IUnitOfWork unitOfWork) : IUserService
         {
             userModel.Roles.Add((await _unitOfWork.Roles.GetFirstOrDefaultAsync(r => r.Name == "Client"))!);
         }
+
         _unitOfWork.Users.Create(userModel);
 
         _ = await _unitOfWork.CompleteAsync();
