@@ -11,7 +11,6 @@ namespace DotnetApiTemplate.Services.Services;
 /// </summary>
 /// <param name="unitOfWork"></param>
 /// <param name="authService"></param>
-/// <param name="mapper"></param>
 public class AuthService(IUnitOfWork unitOfWork) : IAuthService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
