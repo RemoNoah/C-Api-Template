@@ -12,13 +12,13 @@ public class AuthController : ControllerBase
 {
     private readonly IConfiguration _config;
     private readonly JWTokenGenerator _jwtGenerator;
-    private readonly IUserService _userService;
+    private readonly IAuthService _userService;
     private readonly int _expirationMinutes;
     private readonly string _issuer;
     private readonly string _audience;
     private readonly string _key;
 
-    public AuthController(IConfiguration configuration, IUserService userService)
+    public AuthController(IConfiguration configuration, IAuthService userService)
     {
         _config = configuration;
         _userService = userService;
