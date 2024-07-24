@@ -35,15 +35,13 @@ public class AuthController : ControllerBase
     public async Task<ActionResult> Register(UserRegistrationDTO user)
     {
         if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(user.Password) || string.IsNullOrWhiteSpace(user.Username) || string.IsNullOrWhiteSpace(user.FirstName) || string.IsNullOrWhiteSpace(user.LastName))
-        {
-            return BadRequest("Enter all User infos");
-        }
+            return BadRequest("Enter all User Infos");
+
         User? registeredUser = await _userService.RegisterAsync(user);
 
         if (registeredUser != null)
-        {
             return Ok(_jwtGenerator.GenerateToken(registeredUser, _key, _expirationMinutes, _issuer, _audience));
-        }
+        
         return BadRequest("Email already Exists");
     }
 
@@ -52,16 +50,13 @@ public class AuthController : ControllerBase
     public async Task<ActionResult> Login(UserLoginDTO user)
     {
         if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(user.Password))
-        {
-            return BadRequest("Enter all User infos");
-        }
+            return BadRequest("Enter all User Infos");
 
-        User? logedInUser = await _userService.LoginAsync(user);
+        User? loggedInUser = await _userService.LoginAsync(user);
 
-        if (logedInUser != null)
-        {
-            return Ok(_jwtGenerator.GenerateToken(logedInUser, _key, _expirationMinutes, _issuer, _audience));
-        }
+        if (loggedInUser != null)
+            return Ok(_jwtGenerator.GenerateToken(loggedInUser, _key, _expirationMinutes, _issuer, _audience));
+
         return BadRequest("Username or Passwort are wrong");
     }
 }
