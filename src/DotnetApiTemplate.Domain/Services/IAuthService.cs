@@ -4,9 +4,9 @@ using DotnetApiTemplate.Domain.Models;
 namespace DotnetApiTemplate.Domain.Services;
 
 /// <summary>
-/// Interface for <see cref="IUserService"/>.
+/// Interface for <see cref="IAuthService"/>.
 /// </summary>
-public interface IUserService
+public interface IAuthService
 {
     /// <summary>
     /// Logs in the User

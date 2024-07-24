@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using DotnetApiTemplate.Domain.DTO.User;
+﻿using DotnetApiTemplate.Domain.DTO.User;
 using DotnetApiTemplate.Domain.Models;
 using DotnetApiTemplate.Domain.Services;
 using DotnetApiTemplate.Domain.UnitOfWork;
@@ -8,12 +7,12 @@ namespace DotnetApiTemplate.Services.Services;
 
 /// <summary>
 /// Service class for managing user-related operations.
-/// This class implements the <see cref="IUserService"/> interface.
+/// This class implements the <see cref="IAuthService"/> interface.
 /// </summary>
 /// <param name="unitOfWork"></param>
 /// <param name="authService"></param>
 /// <param name="mapper"></param>
-public class AuthService(IUnitOfWork unitOfWork) : IUserService
+public class AuthService(IUnitOfWork unitOfWork) : IAuthService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 

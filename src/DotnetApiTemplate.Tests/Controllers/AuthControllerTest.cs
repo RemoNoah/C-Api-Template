@@ -12,7 +12,7 @@ namespace DotnetApiTemplate.Tests.Controllers;
 public class AuthControllerTest
 {
     private AuthController _userController = null!;
-    private readonly Mock<IUserService> _userServiceMock = new();
+    private readonly Mock<IAuthService> _userServiceMock = new();
 
     [TestInitialize]
     public void Setup()
