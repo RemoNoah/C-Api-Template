@@ -1,5 +1,5 @@
 ﻿using DotnetApiTemplate.Api.Auth;
-using DotnetApiTemplate.Domain.DTO;
+using DotnetApiTemplate.Domain.DTO.User;
 using DotnetApiTemplate.Domain.Models;
 using DotnetApiTemplate.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
