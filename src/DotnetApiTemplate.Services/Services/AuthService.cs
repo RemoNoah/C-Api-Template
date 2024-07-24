@@ -1,4 +1,5 @@
-﻿using DotnetApiTemplate.Domain.DTO;
+﻿using AutoMapper;
+using DotnetApiTemplate.Domain.DTO;
 using DotnetApiTemplate.Domain.Models;
 using DotnetApiTemplate.Domain.Services;
 using DotnetApiTemplate.Domain.UnitOfWork;
@@ -12,9 +13,10 @@ namespace DotnetApiTemplate.Services.Services;
 /// <param name="unitOfWork"></param>
 /// <param name="authService"></param>
 /// <param name="mapper"></param>
-public class AuthService(IUnitOfWork unitOfWork) : IUserService
+public class AuthService(IUnitOfWork unitOfWork, IMapper mapper) : IUserService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IMapper _mapper = mapper;
 
     /// <inheritdoc/>
     public async Task<User?> LoginAsync(UserLoginDTO userLoginDto)
@@ -36,9 +38,9 @@ public class AuthService(IUnitOfWork unitOfWork) : IUserService
         if (user == null)
             return null;
 
-        User? userDTO = (await _unitOfWork.Users.GetAsync(x => x.Email == user.Email)).FirstOrDefault();
+        User? userWithEmail= (await _unitOfWork.Users.GetAsync(x => x.Email == user.Email)).FirstOrDefault();
 
-        if (userDTO != null)
+        if (userWithEmail != null)
             return null;
 
         User userModel = new(user.Password)
