@@ -1,4 +1,4 @@
-﻿using DotnetApiTemplate.Domain.DTO;
+﻿using DotnetApiTemplate.Domain.DTO.User;
 using DotnetApiTemplate.Domain.Models;
 
 namespace DotnetApiTemplate.Domain.Services;

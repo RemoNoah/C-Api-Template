@@ -1,4 +1,4 @@
-﻿namespace DotnetApiTemplate.Domain.DTO;
+﻿namespace DotnetApiTemplate.Domain.DTO.User;
 
 /// <summary>
 /// Represents a UserLoginDTO

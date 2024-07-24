@@ -1,10 +1,10 @@
-﻿using DotnetApiTemplate.Domain.DTO;
-using DotnetApiTemplate.Api.Controllers;
+﻿using DotnetApiTemplate.Api.Controllers;
 using DotnetApiTemplate.Domain.Models;
 using DotnetApiTemplate.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using DotnetApiTemplate.Domain.DTO.User;
 
 namespace DotnetApiTemplate.Tests.Controllers;
 
