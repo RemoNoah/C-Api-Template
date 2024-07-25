@@ -50,6 +50,11 @@ public class RoleService(IUnitOfWork unitOfWork, IMapper mapper) : IRoleService
     /// <inheritdoc/>
     public async Task<RoleWithoutIdDTO> Create(RoleWithoutIdDTO role)
     {
+        Role? existingRole = await _unitOfWork.Roles.GetFirstOrDefaultAsync(r => r.Name == role.Name);
+
+        if (existingRole != null)
+            return new();
+
         Role newRole = _mapper.Map<Role>(role);
         newRole.Id = Guid.NewGuid();
 
@@ -75,6 +80,11 @@ public class RoleService(IUnitOfWork unitOfWork, IMapper mapper) : IRoleService
     /// <inheritdoc/>
     public async Task<RoleWithoutIdDTO> Update(RoleWithIdDTO role)
     {
+        Role? existingRole = await _unitOfWork.Roles.GetByIdAsync(role.Id);
+
+        if (existingRole == null)
+            return new();
+
         Role updatedRole = _mapper.Map<Role>(role);
 
         _unitOfWork.Roles.Update(updatedRole);
