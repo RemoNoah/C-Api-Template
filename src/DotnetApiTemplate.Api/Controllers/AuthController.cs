@@ -12,16 +12,16 @@ public class AuthController : ControllerBase
 {
     private readonly IConfiguration _config;
     private readonly JWTokenGenerator _jwtGenerator;
-    private readonly IAuthService _userService;
+    private readonly IAuthService _authService;
     private readonly int _expirationMinutes;
     private readonly string _issuer;
     private readonly string _audience;
     private readonly string _key;
 
-    public AuthController(IConfiguration configuration, IAuthService userService)
+    public AuthController(IConfiguration configuration, IAuthService authService)
     {
         _config = configuration;
-        _userService = userService;
+        _authService = authService;
         _key = _config.GetValue<string>("Jwt:Key")!;
         _expirationMinutes = _config.GetValue<int>("Jwt:ExpireMinutes");
         _issuer = _config.GetValue<string>("Jwt:Issuer")!;
@@ -37,7 +37,7 @@ public class AuthController : ControllerBase
         if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(user.Password) || string.IsNullOrWhiteSpace(user.Username) || string.IsNullOrWhiteSpace(user.FirstName) || string.IsNullOrWhiteSpace(user.LastName))
             return BadRequest("Enter all User Infos");
 
-        User? registeredUser = await _userService.RegisterAsync(user);
+        User? registeredUser = await _authService.RegisterAsync(user);
 
         if (registeredUser != null)
             return Ok(_jwtGenerator.GenerateToken(registeredUser, _key, _expirationMinutes, _issuer, _audience));
@@ -52,7 +52,7 @@ public class AuthController : ControllerBase
         if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(user.Password))
             return BadRequest("Enter all User Infos");
 
-        User? loggedInUser = await _userService.LoginAsync(user);
+        User? loggedInUser = await _authService.LoginAsync(user);
 
         if (loggedInUser != null)
             return Ok(_jwtGenerator.GenerateToken(loggedInUser, _key, _expirationMinutes, _issuer, _audience));
