@@ -32,6 +32,7 @@ public class AuthController : ControllerBase
 
     [HttpPost]
     [Route("[action]")]
+    [AccessibleBy(AccessFlags.Everyone)]
     public async Task<ActionResult> Register(UserRegistrationDTO user)
     {
         if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(user.Password) || string.IsNullOrWhiteSpace(user.Username) || string.IsNullOrWhiteSpace(user.FirstName) || string.IsNullOrWhiteSpace(user.LastName))
@@ -47,6 +48,7 @@ public class AuthController : ControllerBase
 
     [HttpPost]
     [Route("[action]")]
+    [AccessibleBy(AccessFlags.Everyone)]
     public async Task<ActionResult> Login(UserLoginDTO user)
     {
         if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(user.Password))
