@@ -1,7 +1,7 @@
 ﻿namespace DotnetApiTemplate.Domain.DTO.User;
 
 /// <summary>
-/// Represents a UserLoginDTO
+/// Represents a Data Transfer Object (DTO) for an UserLoginDTO.
 /// </summary>
 public class UserLoginDTO
 {

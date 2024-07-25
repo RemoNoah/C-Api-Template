@@ -1,7 +1,7 @@
 ﻿namespace DotnetApiTemplate.Domain.DTO.Role;
 
 /// <summary>
-/// Represents an RoleWithIdDTO entity
+/// Represents a Data Transfer Object (DTO) for an RoleWithoutIdDTO.
 /// </summary>
 public class RoleWithoutIdDTO
 {

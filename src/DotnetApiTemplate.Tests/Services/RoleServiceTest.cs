@@ -131,7 +131,7 @@ public class RoleServiceTest
     }
 
     [TestMethod]
-    public async Task Delete_RoleNotFound_ReturnsFalse()
+    public async Task DeleteById_RoleNotFound_ReturnsFalse()
     {
         // Arrange
         Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
@@ -140,14 +140,14 @@ public class RoleServiceTest
         _uowMock.Setup(u => u.Roles.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(null as Role);
 
         // Act
-        var result = await _roleService.Delete(role.Id);
+        var result = await _roleService.DeleteById(role.Id);
 
         // Assert
         Assert.IsFalse(result);
     }
 
     [TestMethod]
-    public async Task Delete_RoleFound_ReturnsTrue()
+    public async Task DeleteById_RoleFound_ReturnsTrue()
     {
         // Arrange
         Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
@@ -157,14 +157,48 @@ public class RoleServiceTest
         _uowMock.Setup(u => u.Roles.Delete(It.IsAny<Role>()));
 
         // Act
-        var result = await _roleService.Delete(role.Id);
+        var result = await _roleService.DeleteById(role.Id);
 
         // Assert
         Assert.IsTrue(result);
     }
 
     [TestMethod]
-    public async Task Update_RoleNotFound_ReturnsNewRole()
+    public async Task DeleteByName_RoleFound_ReturnsTrue()
+    {
+        // Arrange
+        Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
+        RoleWithoutIdDTO roleWithoutDTO = new() { Name = role.Name };
+
+        _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(role);
+        _uowMock.Setup(u => u.Roles.Delete(It.IsAny<Role>()));
+
+        // Act
+        var result = await _roleService.DeleteByName(role.Name);
+
+        // Assert
+        Assert.IsTrue(result);
+    }
+
+    [TestMethod]
+    public async Task DeleteByName_RoleNotFound_ReturnsFalse()
+    {
+        // Arrange
+        Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
+        RoleWithoutIdDTO roleWithoutDTO = new() { Name = role.Name };
+
+        _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(null as Role);
+        _uowMock.Setup(u => u.Roles.Delete(It.IsAny<Role>()));
+
+        // Act
+        var result = await _roleService.DeleteByName(role.Name);
+
+        // Assert
+        Assert.IsFalse(result);
+    }
+
+    [TestMethod]
+    public async Task UpdateById_RoleNotFound_ReturnsNewRole()
     {
         // Arrange
         Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
@@ -175,14 +209,14 @@ public class RoleServiceTest
         _uowMock.Setup(u => u.Roles.Update(It.IsAny<Role>()));
 
         // Act
-        var result = await _roleService.Update(roleWithDTO);
+        var result = await _roleService.UpdateById(roleWithDTO);
 
         // Assert
         Assert.AreEqual(expectedName, result.Name);
     }
 
     [TestMethod]
-    public async Task Update_RoleFound_ReturnsUpdatedRole()
+    public async Task UpdateById_RoleFound_ReturnsUpdatedRole()
     {
         // Arrange
         Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
@@ -192,9 +226,44 @@ public class RoleServiceTest
         _uowMock.Setup(u => u.Roles.Update(It.IsAny<Role>()));
 
         // Act
-        var result = await _roleService.Update(roleWithDTO);
+        var result = await _roleService.UpdateById(roleWithDTO);
 
         // Assert
         Assert.AreEqual(role.Name, result.Name);
+    }
+
+    [TestMethod]
+    public async Task UpdateByOldName_RoleNotFound_ReturnsNewRole()
+    {
+        // Arrange
+        Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
+        RoleUpdateByOldNameDTO roleUpdateByOldNameDTO = new() { OldName = role.Name, NewName = "test" };
+        string expectedName = null!;
+
+        _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(null as Role);
+        _uowMock.Setup(u => u.Roles.Update(It.IsAny<Role>()));
+
+        // Act
+        var result = await _roleService.UpdateByOldName(roleUpdateByOldNameDTO);
+
+        // Assert
+        Assert.AreEqual(expectedName, result.Name);
+    }
+
+    [TestMethod]
+    public async Task UpdateByOldName_RoleFound_ReturnsUpdatedRole()
+    {
+        // Arrange
+        Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
+        RoleUpdateByOldNameDTO roleUpdateByOldNameDTO = new() { OldName = role.Name, NewName = "test" };
+
+        _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(role);
+        _uowMock.Setup(u => u.Roles.Update(It.IsAny<Role>()));
+
+        // Act
+        var result = await _roleService.UpdateByOldName(roleUpdateByOldNameDTO);
+
+        // Assert
+        Assert.AreEqual(roleUpdateByOldNameDTO.NewName, result.Name);
     }
 }

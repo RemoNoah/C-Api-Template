@@ -64,7 +64,40 @@ public class RoleService(IUnitOfWork unitOfWork, IMapper mapper) : IRoleService
     }
 
     /// <inheritdoc/>
-    public async Task<bool> Delete(Guid roleId)
+    public async Task<RoleWithoutIdDTO> UpdateById(RoleWithIdDTO role)
+    {
+        Role? existingRole = await _unitOfWork.Roles.GetByIdAsync(role.Id);
+
+        if (existingRole == null)
+            return new();
+
+        Role updatedRole = _mapper.Map<Role>(role);
+
+        _unitOfWork.Roles.Update(updatedRole);
+        _ = await _unitOfWork.CompleteAsync();
+
+        return _mapper.Map<RoleWithoutIdDTO>(updatedRole);
+    }
+
+    /// <inheritdoc/>
+    public async Task<RoleWithoutIdDTO> UpdateByOldName(RoleUpdateByOldNameDTO role)
+    {
+        Role? existingRole = await _unitOfWork.Roles.GetFirstOrDefaultAsync(r => r.Name == role.OldName);
+
+        if (existingRole == null)
+            return new();
+
+        Role updatedRole = _mapper.Map<Role>(role);
+        updatedRole.Id = existingRole.Id;
+
+        _unitOfWork.Roles.Update(updatedRole);
+        _ = await _unitOfWork.CompleteAsync();
+
+        return _mapper.Map<RoleWithoutIdDTO>(updatedRole);
+    }
+
+    /// <inheritdoc/>
+    public async Task<bool> DeleteById(Guid roleId)
     {
         Role? existingRole = await _unitOfWork.Roles.GetByIdAsync(roleId);
         if (existingRole != null)
@@ -78,18 +111,16 @@ public class RoleService(IUnitOfWork unitOfWork, IMapper mapper) : IRoleService
     }
 
     /// <inheritdoc/>
-    public async Task<RoleWithoutIdDTO> Update(RoleWithIdDTO role)
+    public async Task<bool> DeleteByName(string name)
     {
-        Role? existingRole = await _unitOfWork.Roles.GetByIdAsync(role.Id);
+        Role? existingRole = await _unitOfWork.Roles.GetFirstOrDefaultAsync(r => r.Name == name);
+        if (existingRole != null)
+        {
+            _unitOfWork.Roles.Delete(existingRole);
+            _ = await _unitOfWork.CompleteAsync();
+            return true;
+        }
 
-        if (existingRole == null)
-            return new();
-
-        Role updatedRole = _mapper.Map<Role>(role);
-
-        _unitOfWork.Roles.Update(updatedRole);
-        _ = await _unitOfWork.CompleteAsync();
-
-        return _mapper.Map<RoleWithoutIdDTO>(updatedRole);
+        return false;
     }
 }
