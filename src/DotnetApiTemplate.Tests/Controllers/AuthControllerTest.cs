@@ -11,8 +11,8 @@ namespace DotnetApiTemplate.Tests.Controllers;
 [TestClass]
 public class AuthControllerTest
 {
-    private AuthController _userController = null!;
-    private readonly Mock<IAuthService> _userServiceMock = new();
+    private AuthController _authController = null!;
+    private readonly Mock<IAuthService> _authServiceMock = new();
 
     [TestInitialize]
     public void Setup()
@@ -26,7 +26,7 @@ public class AuthControllerTest
             .AddInMemoryCollection(inMemorySettings)
             .Build();
 
-        _userController = new AuthController(configuration, _userServiceMock.Object);
+        _authController = new AuthController(configuration, _authServiceMock.Object);
     }
 
     [TestMethod]
@@ -36,17 +36,17 @@ public class AuthControllerTest
         UserRegistrationDTO newUser = null!;
 
         // Act
-        var result = _userController.Register(newUser);
+        var actual = _authController.Register(newUser);
 
         // Assert
-        Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
-        if (result.Result is not BadRequestObjectResult badResult)
+        Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
+        if (actual.Result is not BadRequestObjectResult result)
         {
             throw new ArgumentNullException();
         }
 
-        Assert.IsInstanceOfType(badResult.Value, typeof(string));
-        if (badResult.Value is not string)
+        Assert.IsInstanceOfType(result.Value, typeof(string));
+        if (result.Value is not string)
         {
             throw new ArgumentNullException();
         }
@@ -59,17 +59,17 @@ public class AuthControllerTest
         UserRegistrationDTO newUser = new();
 
         // Act
-        var result = _userController.Register(newUser);
+        var actual = _authController.Register(newUser);
 
         // Assert
-        Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
-        if (result.Result is not BadRequestObjectResult badResult)
+        Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
+        if (actual.Result is not BadRequestObjectResult result)
         {
             throw new ArgumentNullException();
         }
 
-        Assert.IsInstanceOfType(badResult.Value, typeof(string));
-        if (badResult.Value is not string)
+        Assert.IsInstanceOfType(result.Value, typeof(string));
+        if (result.Value is not string)
         {
             throw new ArgumentNullException();
         }
@@ -81,20 +81,20 @@ public class AuthControllerTest
         // Arrange
         UserRegistrationDTO newUser = new() { Email = "Test", FirstName = "Test", Password = "Test", LastName = "test", Username = "test" };
 
-        _ = _userServiceMock.Setup(r => r.RegisterAsync(It.IsAny<UserRegistrationDTO>())).ReturnsAsync(null as User);
+        _ = _authServiceMock.Setup(r => r.RegisterAsync(It.IsAny<UserRegistrationDTO>())).ReturnsAsync(null as User);
 
         // Act
-        var result = _userController.Register(newUser);
+        var actual = _authController.Register(newUser);
 
         // Assert
-        Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
-        if (result.Result is not BadRequestObjectResult badResult)
+        Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
+        if (actual.Result is not BadRequestObjectResult result)
         {
             throw new ArgumentNullException();
         }
 
-        Assert.IsInstanceOfType(badResult.Value, typeof(string));
-        if (badResult.Value is not string)
+        Assert.IsInstanceOfType(result.Value, typeof(string));
+        if (result.Value is not string)
         {
             throw new ArgumentNullException();
         }
@@ -107,20 +107,20 @@ public class AuthControllerTest
         UserRegistrationDTO newUser = new() { Email = "Test", FirstName = "Test", Password = "Test", LastName = "test", Username = "test" };
         User user = new() { Email = "Test", FirstName = "Test", LastName = "test", Username = "test", Salt = "aPvpoOXmAQ5trcofo5vfDA==", Hash = "FhA5rX7AAODqo5qLd8s8a03pTRWxh2C7KheuFC3KbQ8=" };
 
-        _ = _userServiceMock.Setup(r => r.RegisterAsync(It.IsAny<UserRegistrationDTO>())).ReturnsAsync(user);
+        _ = _authServiceMock.Setup(r => r.RegisterAsync(It.IsAny<UserRegistrationDTO>())).ReturnsAsync(user);
 
         // Act
-        var result = _userController.Register(newUser);
+        var actual = _authController.Register(newUser);
 
         // Assert
-        Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
-        if (result.Result is not OkObjectResult okResult)
+        Assert.IsInstanceOfType(actual.Result, typeof(OkObjectResult));
+        if (actual.Result is not OkObjectResult result)
         {
             throw new ArgumentNullException();
         }
 
-        Assert.IsInstanceOfType(okResult.Value, typeof(string));
-        if (okResult.Value is not string)
+        Assert.IsInstanceOfType(result.Value, typeof(string));
+        if (result.Value is not string)
         {
             throw new ArgumentNullException();
         }
@@ -134,17 +134,17 @@ public class AuthControllerTest
         UserLoginDTO user = null!;
 
         // Act
-        var result = _userController.Login(user);
+        var actual = _authController.Login(user);
 
         // Assert
-        Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
-        if (result.Result is not BadRequestObjectResult badResult)
+        Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
+        if (actual.Result is not BadRequestObjectResult result)
         {
             throw new ArgumentNullException();
         }
 
-        Assert.IsInstanceOfType(badResult.Value, typeof(string));
-        if (badResult.Value is not string)
+        Assert.IsInstanceOfType(result.Value, typeof(string));
+        if (result.Value is not string)
         {
             throw new ArgumentNullException();
         }
@@ -157,17 +157,17 @@ public class AuthControllerTest
         UserLoginDTO user = new();
 
         // Act
-        var result = _userController.Login(user);
+        var actual = _authController.Login(user);
 
         // Assert
-        Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
-        if (result.Result is not BadRequestObjectResult badResult)
+        Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
+        if (actual.Result is not BadRequestObjectResult result)
         {
             throw new ArgumentNullException();
         }
 
-        Assert.IsInstanceOfType(badResult.Value, typeof(string));
-        if (badResult.Value is not string)
+        Assert.IsInstanceOfType(result.Value, typeof(string));
+        if (result.Value is not string)
         {
             throw new ArgumentNullException();
         }
@@ -179,20 +179,20 @@ public class AuthControllerTest
         // Arrange
         UserLoginDTO user = new() { Email = "Test", Password = "Test" };
 
-        _ = _userServiceMock.Setup(r => r.RegisterAsync(It.IsAny<UserRegistrationDTO>())).ReturnsAsync(null as User);
+        _ = _authServiceMock.Setup(r => r.RegisterAsync(It.IsAny<UserRegistrationDTO>())).ReturnsAsync(null as User);
 
         // Act
-        var result = _userController.Login(user);
+        var actual = _authController.Login(user);
 
         // Assert
-        Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
-        if (result.Result is not BadRequestObjectResult badResult)
+        Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
+        if (actual.Result is not BadRequestObjectResult result)
         {
             throw new ArgumentNullException();
         }
 
-        Assert.IsInstanceOfType(badResult.Value, typeof(string));
-        if (badResult.Value is not string)
+        Assert.IsInstanceOfType(result.Value, typeof(string));
+        if (result.Value is not string)
         {
             throw new ArgumentNullException();
         }
@@ -205,20 +205,20 @@ public class AuthControllerTest
         UserLoginDTO user = new() { Email = "Test", Password = "Test" };
         User logedInUser = new() { Email = "Test", FirstName = "Test", LastName = "test", Username = "test", Salt = "aPvpoOXmAQ5trcofo5vfDA==", Hash = "FhA5rX7AAODqo5qLd8s8a03pTRWxh2C7KheuFC3KbQ8=" };
 
-        _ = _userServiceMock.Setup(r => r.LoginAsync(It.IsAny<UserLoginDTO>())).ReturnsAsync(logedInUser);
+        _ = _authServiceMock.Setup(r => r.LoginAsync(It.IsAny<UserLoginDTO>())).ReturnsAsync(logedInUser);
 
         // Act
-        var result = _userController.Login(user);
+        var actual = _authController.Login(user);
 
         // Assert
-        Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
-        if (result.Result is not OkObjectResult okResult)
+        Assert.IsInstanceOfType(actual.Result, typeof(OkObjectResult));
+        if (actual.Result is not OkObjectResult result)
         {
             throw new ArgumentNullException();
         }
 
-        Assert.IsInstanceOfType(okResult.Value, typeof(string));
-        if (okResult.Value is not string)
+        Assert.IsInstanceOfType(result.Value, typeof(string));
+        if (result.Value is not string)
         {
             throw new ArgumentNullException();
         }
