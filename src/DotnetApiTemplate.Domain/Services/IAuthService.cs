@@ -15,7 +15,6 @@ public interface IAuthService
     /// <returns>The User</returns>
     Task<User?> LoginAsync(UserLoginDTO userLoginDto);
 
-
     /// <summary>
     /// Register a User
     /// </summary>

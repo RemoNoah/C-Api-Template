@@ -1,5 +1,6 @@
 ﻿using DotnetApiTemplate.Domain.DTO.User;
 using DotnetApiTemplate.Domain.Models;
+using DotnetApiTemplate.Domain.Services;
 using DotnetApiTemplate.Domain.UnitOfWork;
 using DotnetApiTemplate.Services.Services;
 using Moq;
@@ -11,14 +12,14 @@ namespace DotnetApiTemplate.Tests.Services;
 public class AuthServiceTest
 {
     private Mock<IUnitOfWork> _uowMock = null!;
-    private AuthService _userService = null!;
+    private AuthService _authService = null!;
 
 
     [TestInitialize]
     public void Setup()
     {
         _uowMock = new Mock<IUnitOfWork>();
-        _userService = new(_uowMock.Object);
+        _authService = new(_uowMock.Object);
     }
 
     [TestMethod]
@@ -28,7 +29,7 @@ public class AuthServiceTest
         UserRegistrationDTO newUser = null!;
 
         // Act
-        var result = _userService.RegisterAsync(newUser);
+        var result = _authService.RegisterAsync(newUser);
 
         // Assert
         Assert.IsNull(result.Result);
@@ -41,7 +42,7 @@ public class AuthServiceTest
         UserLoginDTO newUser = null!;
 
         // Act
-        var result = _userService.LoginAsync(newUser);
+        var result = _authService.LoginAsync(newUser);
 
         // Assert
         Assert.IsNull(result.Result);
@@ -55,7 +56,7 @@ public class AuthServiceTest
         _uowMock.Setup(r => r.Users.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>(), CancellationToken.None)).ReturnsAsync(null as User);
 
         // Act
-        var result = _userService.LoginAsync(newUser);
+        var result = _authService.LoginAsync(newUser);
 
         // Assert
         Assert.IsNull(result.Result);
