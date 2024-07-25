@@ -16,10 +16,7 @@ public enum AccessFlags
     None = 0,
     Everyone = 1,
     Self = 2, // If self is used a userId or dto with a userId property must be provided as parameter to the controller method
-    VocationalTrainer = 4,
-    Admin = 8,
-    Apprentice = 16,
-    PracticalTrainer = 32,
+    Admin = 4
 }
 
 /// <summary>

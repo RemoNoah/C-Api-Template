@@ -20,6 +20,7 @@ public static class ServiceLayerSetupExtensions
     public static void AddServiceLayer(this IServiceCollection services, IConfiguration configuration)
     {
         _ = services.AddScoped<IAuthService, AuthService>();
+        _ = services.AddScoped<IRoleService, RoleService>();
         services.AddDataBaseContext(configuration);
         services.AddUnitOfWork();
     }
