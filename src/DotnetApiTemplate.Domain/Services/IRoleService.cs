@@ -8,13 +8,13 @@ namespace DotnetApiTemplate.Domain.Services;
 public interface IRoleService
 {
     /// <summary>
-    /// Gets all roles without Id.
+    /// Gets all roles without the Ids of the Roles.
     /// </summary>
     /// <returns>All roles in a IEnumerable</returns>
     Task<IEnumerable<RoleWithoutIdDTO>> GetAllWithoutId();
 
     /// <summary>
-    /// Gets all roles with Id.
+    /// Gets all roles with the Ids of the Roles.
     /// </summary>
     /// <returns>All roles in a IEnumerable</returns>
     Task<IEnumerable<RoleWithIdDTO>> GetAllWithId();
@@ -34,11 +34,18 @@ public interface IRoleService
     Task<string> GetNameById(Guid id);
 
     /// <summary>
-    /// Updates the specified role.
+    /// Updates the name of a specified role based on the given role Id.
     /// </summary>
     /// <param name="role">The role.</param>
     /// <returns>The updated Role</returns>
-    Task<RoleWithoutIdDTO> Update(RoleWithIdDTO role);
+    Task<RoleWithoutIdDTO> UpdateById(RoleWithIdDTO role);
+
+    /// <summary>
+    /// Updates the name of a specified role based on the old name.
+    /// </summary>
+    /// <param name="role">The role.</param>
+    /// <returns>The updated Role</returns>
+    Task<RoleWithoutIdDTO> UpdateByOldName(RoleUpdateByOldNameDTO role);
 
     /// <summary>
     /// Creates the specified role.
@@ -48,9 +55,16 @@ public interface IRoleService
     Task<RoleWithoutIdDTO> Create(RoleWithoutIdDTO role);
 
     /// <summary>
-    /// Delete the specified role.
+    /// Delete the specified role by the given Id.
     /// </summary>
     /// <param name="roleId">The id of the role.</param>
     /// <returns>A bool, true if the Role was removed, else false</returns>
-    Task<bool> Delete(Guid roleId);
+    Task<bool> DeleteById(Guid roleId);
+
+    /// <summary>
+    /// Delete the specified role by the given Name.
+    /// </summary>
+    /// <param name="name">The name of the role.</param>
+    /// <returns>A bool, true if the Role was removed, else false</returns>
+    Task<bool> DeleteByName(string name);
 }

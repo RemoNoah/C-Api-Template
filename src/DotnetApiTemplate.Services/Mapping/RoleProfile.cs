@@ -22,5 +22,8 @@ public class RoleProfile : Profile
         _ = CreateMap<RoleWithoutIdDTO, Role>();
 
         _ = CreateMap<RoleWithIdDTO, Role>();
+
+        _ = CreateMap<RoleUpdateByOldNameDTO, Role>()
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.NewName));
     }
 }

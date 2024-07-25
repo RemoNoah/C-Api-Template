@@ -1,7 +1,7 @@
 ﻿namespace DotnetApiTemplate.Domain.DTO.User
 {
     /// <summary>
-    /// DTO for User registration
+    /// Represents a Data Transfer Object (DTO) for an UserRegistrationDTO.
     /// </summary>
     public class UserRegistrationDTO
     {
