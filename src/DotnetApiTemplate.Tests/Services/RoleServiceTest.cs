@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using DotnetApiTemplate.Domain.DTO.Role;
-using DotnetApiTemplate.Domain.DTO.User;
 using DotnetApiTemplate.Domain.Models;
-using DotnetApiTemplate.Domain.Services;
 using DotnetApiTemplate.Domain.UnitOfWork;
 using DotnetApiTemplate.Services.Mapping;
 using DotnetApiTemplate.Services.Services;

@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using DotnetApiTemplate.DataAccess.Setup;
+﻿using DotnetApiTemplate.DataAccess.Setup;
 using DotnetApiTemplate.Domain.Services;
 using DotnetApiTemplate.Services.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DotnetApiTemplate.Services.Setup;
 
