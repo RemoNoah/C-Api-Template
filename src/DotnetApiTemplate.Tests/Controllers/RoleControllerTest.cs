@@ -360,10 +360,10 @@ public class RoleControllerTest
     public async Task UpdateById_ResultIsNUll_ReturnsBadRequest()
     {
         // Arrange
-        RoleWithoutIdDTO roleWithoutIdDTO = new() { Name = "" };
+        RoleWithoutIdDTO roleWithoutIdDTO = new() { Name = "test" };
         RoleWithIdDTO roleWithIdDTO = new() { Id = Guid.NewGuid(), Name = roleWithoutIdDTO.Name };
 
-        _ = _roleServiceMock.Setup(r => r.UpdateById(It.IsAny<RoleWithIdDTO>())).ReturnsAsync(roleWithoutIdDTO);
+        _ = _roleServiceMock.Setup(r => r.UpdateById(It.IsAny<RoleWithIdDTO>()))!.ReturnsAsync(new RoleWithoutIdDTO());
 
         // Act
         var actual = await _roleController.UpdateById(roleWithIdDTO);
@@ -403,6 +403,230 @@ public class RoleControllerTest
 
         Assert.IsInstanceOfType(result.Value, typeof(RoleWithoutIdDTO));
         if (result.Value is not RoleWithoutIdDTO)
+        {
+            throw new ArgumentNullException();
+        }
+    }
+
+    [TestMethod]
+    public async Task UpdateByOldName_NameIsEmpty_ReturnsBadRequest()
+    {
+        // Arrange
+        RoleWithoutIdDTO roleWithoutIdDTO = new() { Name = "New" };
+        RoleUpdateByOldNameDTO roleUpdateByOldNameDTO = new() { NewName = roleWithoutIdDTO.Name, OldName = "" };
+
+        // Act
+        var actual = await _roleController.UpdateByOldName(roleUpdateByOldNameDTO);
+
+        // Assert
+        Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
+        if (actual.Result is not BadRequestObjectResult result)
+        {
+            throw new ArgumentNullException();
+        }
+
+        Assert.IsInstanceOfType(result.Value, typeof(string));
+        if (result.Value is not string)
+        {
+            throw new ArgumentNullException();
+        }
+    }
+
+    [TestMethod]
+    public async Task UpdateByOldName_ResultIsEmpty_ReturnsBadRequest()
+    {
+        // Arrange
+        RoleWithoutIdDTO roleWithoutIdDTO = new() { Name = "New" };
+        RoleUpdateByOldNameDTO roleUpdateByOldNameDTO = new() { NewName = roleWithoutIdDTO.Name, OldName = "Test" };
+
+        _ = _roleServiceMock.Setup(r => r.UpdateByOldName(It.IsAny<RoleUpdateByOldNameDTO>())).ReturnsAsync(new RoleWithoutIdDTO());
+
+        // Act
+        var actual = await _roleController.UpdateByOldName(roleUpdateByOldNameDTO);
+
+        // Assert
+        Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
+        if (actual.Result is not BadRequestObjectResult result)
+        {
+            throw new ArgumentNullException();
+        }
+
+        Assert.IsInstanceOfType(result.Value, typeof(string));
+        if (result.Value is not string)
+        {
+            throw new ArgumentNullException();
+        }
+    }
+
+    [TestMethod]
+    public async Task UpdateByOldName_ReturnsOk()
+    {
+        // Arrange
+        RoleWithoutIdDTO roleWithoutIdDTO = new() { Name = "New" };
+        RoleUpdateByOldNameDTO roleUpdateByOldNameDTO = new() { NewName = roleWithoutIdDTO.Name, OldName = "Test" };
+
+        _ = _roleServiceMock.Setup(r => r.UpdateByOldName(It.IsAny<RoleUpdateByOldNameDTO>())).ReturnsAsync(roleWithoutIdDTO);
+
+        // Act
+        var actual = await _roleController.UpdateByOldName(roleUpdateByOldNameDTO);
+
+        // Assert
+        Assert.IsInstanceOfType(actual.Result, typeof(OkObjectResult));
+        if (actual.Result is not OkObjectResult result)
+        {
+            throw new ArgumentNullException();
+        }
+
+        Assert.IsInstanceOfType(result.Value, typeof(RoleWithoutIdDTO));
+        if (result.Value is not RoleWithoutIdDTO)
+        {
+            throw new ArgumentNullException();
+        }
+
+        Assert.AreEqual(roleWithoutIdDTO, result.Value);
+    }
+
+    [TestMethod]
+    public async Task DeleteById_IdIsEmpty_ReturnsBadRequest()
+    {
+        // Arrange
+        Guid id = Guid.Empty;
+
+        // Act
+        var actual = await _roleController.DeleteById(id);
+
+        // Assert
+        Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
+        if (actual.Result is not BadRequestObjectResult result)
+        {
+            throw new ArgumentNullException();
+        }
+
+        Assert.IsInstanceOfType(result.Value, typeof(string));
+        if (result.Value is not string)
+        {
+            throw new ArgumentNullException();
+        }
+    }
+
+    [TestMethod]
+    public async Task DeleteById_ResultIsFalse_ReturnsBadRequest()
+    {
+        // Arrange
+        Guid id = Guid.NewGuid();
+
+        _ = _roleServiceMock.Setup(r => r.DeleteById(It.IsAny<Guid>())).ReturnsAsync(false);
+
+        // Act
+        var actual = await _roleController.DeleteById(id);
+
+        // Assert
+        Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
+        if (actual.Result is not BadRequestObjectResult result)
+        {
+            throw new ArgumentNullException();
+        }
+
+        Assert.IsInstanceOfType(result.Value, typeof(string));
+        if (result.Value is not string)
+        {
+            throw new ArgumentNullException();
+        }
+    }
+
+    [TestMethod]
+    public async Task DeleteById_ReturnsOk()
+    {
+        // Arrange
+        Guid id = Guid.NewGuid();
+
+        _ = _roleServiceMock.Setup(r => r.DeleteById(It.IsAny<Guid>())).ReturnsAsync(true);
+
+        // Act
+        var actual = await _roleController.DeleteById(id);
+
+        // Assert
+        Assert.IsInstanceOfType(actual.Result, typeof(OkObjectResult));
+        if (actual.Result is not OkObjectResult result)
+        {
+            throw new ArgumentNullException();
+        }
+
+        Assert.IsInstanceOfType(result.Value, typeof(string));
+        if (result.Value is not string)
+        {
+            throw new ArgumentNullException();
+        }
+    }
+
+    [TestMethod]
+    public async Task DeleteByName_NameIsEmpty_ReturnsBadRequest()
+    {
+        // Arrange
+        string name = "";
+
+        // Act
+        var actual = await _roleController.DeleteByName(name);
+
+        // Assert
+        Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
+        if (actual.Result is not BadRequestObjectResult result)
+        {
+            throw new ArgumentNullException();
+        }
+
+        Assert.IsInstanceOfType(result.Value, typeof(string));
+        if (result.Value is not string)
+        {
+            throw new ArgumentNullException();
+        }
+    }
+
+    [TestMethod]
+    public async Task DeleteByName_ResultIsFalse_ReturnsBadRequest()
+    {
+        // Arrange
+        string name = "Test";
+
+        _ = _roleServiceMock.Setup(r => r.DeleteByName(It.IsAny<string>())).ReturnsAsync(false);
+
+        // Act
+        var actual = await _roleController.DeleteByName(name);
+
+        // Assert
+        Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
+        if (actual.Result is not BadRequestObjectResult result)
+        {
+            throw new ArgumentNullException();
+        }
+
+        Assert.IsInstanceOfType(result.Value, typeof(string));
+        if (result.Value is not string)
+        {
+            throw new ArgumentNullException();
+        }
+    }
+
+    [TestMethod]
+    public async Task DeleteByName_ReturnsOk()
+    {
+        // Arrange
+        string name = "Test";
+
+        _ = _roleServiceMock.Setup(r => r.DeleteByName(It.IsAny<string>())).ReturnsAsync(true);
+
+        // Act
+        var actual = await _roleController.DeleteByName(name);
+
+        // Assert
+        Assert.IsInstanceOfType(actual.Result, typeof(OkObjectResult));
+        if (actual.Result is not OkObjectResult result)
+        {
+            throw new ArgumentNullException();
+        }
+
+        Assert.IsInstanceOfType(result.Value, typeof(string));
+        if (result.Value is not string)
         {
             throw new ArgumentNullException();
         }
