@@ -24,7 +24,7 @@ public class DotnetApiTemplateContext : DbContext
     /// Initializes a new instance of the <see cref="DotnetApiTemplateContext" /> class.
     /// </summary>
     /// <param name="options">The options.</param>
-    public DotnetApiTemplateContext(DbContextOptions<DotnetApiTemplateContext> options, IConfiguration configuration) : base(options) 
+    public DotnetApiTemplateContext(DbContextOptions<DotnetApiTemplateContext> options, IConfiguration configuration) : base(options)
     {
         _configuration = configuration;
     }
@@ -33,20 +33,18 @@ public class DotnetApiTemplateContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer(_configuration!.GetConnectionString("Default"));
+            _ = optionsBuilder.UseSqlServer(_configuration!.GetConnectionString("Default"));
         }
     }
 
     /// <summary>
     /// Gets or sets the users.
     /// </summary>
-    /// <value>The users.</value>
     public virtual DbSet<User> Users { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the roles.
     /// </summary>
-    /// <value>The roles.</value>
     public virtual DbSet<Role> Roles { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -54,7 +52,7 @@ public class DotnetApiTemplateContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         // Seed data
-        modelBuilder.Entity<Role>().HasData(
+        _ = modelBuilder.Entity<Role>().HasData(
             new Role { Id = Guid.NewGuid(), Name = "Admin" },
             new Role { Id = Guid.NewGuid(), Name = "Client" }
         );

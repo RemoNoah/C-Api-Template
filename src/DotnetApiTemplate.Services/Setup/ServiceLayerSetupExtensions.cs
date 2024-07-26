@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using DotnetApiTemplate.DataAccess.Setup;
+﻿using DotnetApiTemplate.DataAccess.Setup;
 using DotnetApiTemplate.Domain.Services;
 using DotnetApiTemplate.Services.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DotnetApiTemplate.Services.Setup;
 
@@ -19,7 +19,8 @@ public static class ServiceLayerSetupExtensions
     /// <param name="configuration">Staged application configuration.</param>
     public static void AddServiceLayer(this IServiceCollection services, IConfiguration configuration)
     {
-        _ = services.AddScoped<IUserService, AuthService>();
+        _ = services.AddScoped<IAuthService, AuthService>();
+        _ = services.AddScoped<IRoleService, RoleService>();
         services.AddDataBaseContext(configuration);
         services.AddUnitOfWork();
     }

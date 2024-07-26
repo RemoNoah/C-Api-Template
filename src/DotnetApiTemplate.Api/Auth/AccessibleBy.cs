@@ -1,5 +1,4 @@
-﻿using DotnetApiTemplate.Domain.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Reflection;
@@ -16,10 +15,7 @@ public enum AccessFlags
     None = 0,
     Everyone = 1,
     Self = 2, // If self is used a userId or dto with a userId property must be provided as parameter to the controller method
-    VocationalTrainer = 4,
-    Admin = 8,
-    Apprentice = 16,
-    PracticalTrainer = 32,
+    Admin = 4
 }
 
 /// <summary>

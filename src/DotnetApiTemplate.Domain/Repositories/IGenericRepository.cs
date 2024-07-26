@@ -63,15 +63,15 @@ public interface IGenericRepository<TEntity> where TEntity : class
     Task<TEntity?> GetWithIncludesAsync(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object?>>[] includes);
 
     /// <summary>
-    /// Should add the provided <paramref name="entity"/> to the data set of the repository.
+    /// Creates the provided <paramref name="entity"/> to the data set of the repository.
     /// </summary>
-    /// <param name="entity">Entity to add.</param>
+    /// <param name="entity">Entity to create.</param>
     void Create(TEntity entity);
 
     /// <summary>
-    /// Should add the provided collection of entities to the data set of the repository.
+    /// Creates the provided collection of entities to the data set of the repository.
     /// </summary>
-    /// <param name="entities">Collection of entities to add.</param>
+    /// <param name="entities">Collection of entities to create.</param>
     void CreateRange(IEnumerable<TEntity> entities);
 
     /// <summary>

@@ -1,9 +1,9 @@
-﻿namespace DotnetApiTemplate.Domain.Models;
+﻿namespace DotnetApiTemplate.Domain.DTO.Role;
 
 /// <summary>
-/// Represents an Role entity
+/// Represents a Data Transfer Object (DTO) for an RoleWithIdDTO.
 /// </summary>
-public class Role
+public class RoleWithIdDTO
 {
     /// <summary>
     /// Gets or sets the Id.
@@ -14,9 +14,4 @@ public class Role
     /// Gets or sets the Name.
     /// </summary>
     public string Name { get; set; } = null!;
-
-    /// <summary>
-    /// Gets or sets the Users.
-    /// </summary>
-    public virtual ICollection<User> Users { get; set; } = null!;
 }

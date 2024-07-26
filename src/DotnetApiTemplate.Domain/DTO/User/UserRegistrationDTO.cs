@@ -1,15 +1,10 @@
-﻿namespace DotnetApiTemplate.Domain.DTO
+﻿namespace DotnetApiTemplate.Domain.DTO.User
 {
     /// <summary>
-    /// DTO for User registration
+    /// Represents a Data Transfer Object (DTO) for an UserRegistrationDTO.
     /// </summary>
     public class UserRegistrationDTO
     {
-        /// <summary>
-        /// Gets or sets the Id.
-        /// </summary>
-        public Guid Id { get; set; }
-
         /// <summary>
         /// Passwort set by user.
         /// </summary>

@@ -1,4 +1,4 @@
-﻿using DotnetApiTemplate.Domain.DTO;
+﻿using DotnetApiTemplate.Domain.DTO.User;
 using DotnetApiTemplate.Domain.Models;
 using DotnetApiTemplate.Domain.Services;
 using DotnetApiTemplate.Domain.UnitOfWork;
@@ -7,12 +7,11 @@ namespace DotnetApiTemplate.Services.Services;
 
 /// <summary>
 /// Service class for managing user-related operations.
-/// This class implements the <see cref="IUserService"/> interface.
+/// This class implements the <see cref="IAuthService"/> interface.
 /// </summary>
 /// <param name="unitOfWork"></param>
 /// <param name="authService"></param>
-/// <param name="mapper"></param>
-public class AuthService(IUnitOfWork unitOfWork) : IUserService
+public class AuthService(IUnitOfWork unitOfWork) : IAuthService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
@@ -25,25 +24,23 @@ public class AuthService(IUnitOfWork unitOfWork) : IUserService
         }
 
         User? user = await _unitOfWork.Users.GetFirstOrDefaultAsync(um => um.Email == userLoginDto.Email);
-        if (user != null && userLoginDto.Email != string.Empty && !string.IsNullOrEmpty(user.Salt)
-            && user.VerifyPassword(userLoginDto.Password))
-        {
-            return user;
-        }
-        return null;
+        return user != null && userLoginDto.Email != string.Empty && !string.IsNullOrEmpty(user.Salt)
+            && user.VerifyPassword(userLoginDto.Password)
+            ? user
+            : null;
     }
 
     /// <inheritdoc/>
     public async Task<User?> RegisterAsync(UserRegistrationDTO user)
     {
-        if (user == null)
+        if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(user.Password))
         {
             return null;
         }
 
-        User? userDTO = (await _unitOfWork.Users.GetAsync(x => x.Email == user.Email)).FirstOrDefault();
+        User? userWithEmail = await _unitOfWork.Users.GetFirstOrDefaultAsync(x => x.Email == user.Email);
 
-        if (userDTO != null)
+        if (userWithEmail != null)
         {
             return null;
         }
@@ -57,7 +54,7 @@ public class AuthService(IUnitOfWork unitOfWork) : IUserService
             LastName = user.LastName,
         };
 
-        if ((await _unitOfWork.Users.GetAllAsync()).Count() < 2)
+        if ((await _unitOfWork.Users.GetAllAsync()).Count() < 1)
         {
             userModel.Roles.Add((await _unitOfWork.Roles.GetFirstOrDefaultAsync(r => r.Name == "Admin"))!);
         }
@@ -65,6 +62,7 @@ public class AuthService(IUnitOfWork unitOfWork) : IUserService
         {
             userModel.Roles.Add((await _unitOfWork.Roles.GetFirstOrDefaultAsync(r => r.Name == "Client"))!);
         }
+
         _unitOfWork.Users.Create(userModel);
 
         _ = await _unitOfWork.CompleteAsync();
