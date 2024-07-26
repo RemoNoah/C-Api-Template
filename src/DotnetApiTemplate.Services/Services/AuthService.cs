@@ -32,10 +32,10 @@ public class AuthService(IUnitOfWork unitOfWork) : IAuthService
     /// <inheritdoc/>
     public async Task<User?> RegisterAsync(UserRegistrationDTO user)
     {
-        if (user == null)
+        if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(user.Password))
             return null;
 
-        User? userWithEmail= (await _unitOfWork.Users.GetAsync(x => x.Email == user.Email)).FirstOrDefault();
+        User? userWithEmail= (await _unitOfWork.Users.GetFirstOrDefaultAsync(x => x.Email == user.Email));
 
         if (userWithEmail != null)
             return null;
@@ -49,7 +49,7 @@ public class AuthService(IUnitOfWork unitOfWork) : IAuthService
             LastName = user.LastName,
         };
 
-        if ((await _unitOfWork.Users.GetAllAsync()).Count() < 2)
+        if ((await _unitOfWork.Users.GetAllAsync()).Count() < 1)
         {
             userModel.Roles.Add((await _unitOfWork.Roles.GetFirstOrDefaultAsync(r => r.Name == "Admin"))!);
         }
