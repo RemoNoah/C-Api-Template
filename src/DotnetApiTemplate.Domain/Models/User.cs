@@ -13,7 +13,7 @@ public class User
     /// </summary>
     public User()
     {
-        Roles = new HashSet<Role>();
+        Roles = [];
     }
 
     /// <summary>
@@ -22,7 +22,7 @@ public class User
     /// <param name="password">The password.</param>
     public User(string password)
     {
-        Roles = new HashSet<Role>();
+        Roles = [];
         Salt = GenerateSalt();
         Hash = ComputeHash(password, Salt);
     }

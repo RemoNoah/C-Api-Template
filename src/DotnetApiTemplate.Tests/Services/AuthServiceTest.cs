@@ -28,7 +28,7 @@ public class AuthServiceTest
         UserRegistrationDTO newUser = null!;
 
         // Act
-        var result = _authService.RegisterAsync(newUser);
+        Task<User?> result = _authService.RegisterAsync(newUser);
 
         // Assert
         Assert.IsNull(result.Result);
@@ -41,10 +41,10 @@ public class AuthServiceTest
         UserRegistrationDTO newUser = new() { Email = "a", Password = "a" };
         User user = new() { Email = newUser.Email };
 
-        _uowMock.Setup(r => r.Users.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>(), CancellationToken.None)).ReturnsAsync(user);
+        _ = _uowMock.Setup(r => r.Users.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>(), CancellationToken.None)).ReturnsAsync(user);
 
         // Act
-        var result = _authService.RegisterAsync(newUser);
+        Task<User?> result = _authService.RegisterAsync(newUser);
 
         // Assert
         Assert.IsNull(result.Result);
@@ -57,13 +57,13 @@ public class AuthServiceTest
         UserRegistrationDTO newUser = new() { Email = "a", Password = "a" };
         User user = new() { Email = newUser.Email };
 
-        _uowMock.Setup(r => r.Users.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>(), CancellationToken.None)).ReturnsAsync(null as User);
-        _uowMock.Setup(r => r.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(new Role());
-        _uowMock.Setup(r => r.Users.GetAllAsync()).ReturnsAsync(new List<User>());
-        _uowMock.Setup(r => r.Users.Create(It.IsAny<User>()));
+        _ = _uowMock.Setup(r => r.Users.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>(), CancellationToken.None)).ReturnsAsync(null as User);
+        _ = _uowMock.Setup(r => r.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(new Role());
+        _ = _uowMock.Setup(r => r.Users.GetAllAsync()).ReturnsAsync([]);
+        _ = _uowMock.Setup(r => r.Users.Create(It.IsAny<User>()));
 
         // Act
-        var result = _authService.RegisterAsync(newUser).Result;
+        User? result = _authService.RegisterAsync(newUser).Result;
 
         // Assert
         Assert.AreEqual(newUser.Email, result!.Email);
@@ -76,13 +76,13 @@ public class AuthServiceTest
         UserRegistrationDTO newUser = new() { Email = "a", Password = "a" };
         User user = new() { Email = newUser.Email };
 
-        _uowMock.Setup(r => r.Users.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>(), CancellationToken.None)).ReturnsAsync(null as User);
-        _uowMock.Setup(r => r.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(new Role());
-        _uowMock.Setup(r => r.Users.GetAllAsync()).ReturnsAsync(new List<User>() { new() });
-        _uowMock.Setup(r => r.Users.Create(It.IsAny<User>()));
+        _ = _uowMock.Setup(r => r.Users.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>(), CancellationToken.None)).ReturnsAsync(null as User);
+        _ = _uowMock.Setup(r => r.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(new Role());
+        _ = _uowMock.Setup(r => r.Users.GetAllAsync()).ReturnsAsync([new()]);
+        _ = _uowMock.Setup(r => r.Users.Create(It.IsAny<User>()));
 
         // Act
-        var result = _authService.RegisterAsync(newUser).Result;
+        User? result = _authService.RegisterAsync(newUser).Result;
 
         // Assert
         Assert.AreEqual(newUser.Email, result!.Email);
@@ -95,7 +95,7 @@ public class AuthServiceTest
         UserLoginDTO newUser = null!;
 
         // Act
-        var result = _authService.LoginAsync(newUser);
+        Task<User?> result = _authService.LoginAsync(newUser);
 
         // Assert
         Assert.IsNull(result.Result);
@@ -106,10 +106,10 @@ public class AuthServiceTest
     {
         // Arrange
         UserLoginDTO newUser = new();
-        _uowMock.Setup(r => r.Users.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>(), CancellationToken.None)).ReturnsAsync(null as User);
+        _ = _uowMock.Setup(r => r.Users.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>(), CancellationToken.None)).ReturnsAsync(null as User);
 
         // Act
-        var result = _authService.LoginAsync(newUser);
+        Task<User?> result = _authService.LoginAsync(newUser);
 
         // Assert
         Assert.IsNull(result.Result);
@@ -121,10 +121,10 @@ public class AuthServiceTest
         // Arrange
         UserLoginDTO userDTO = new() { Email = "a", Password = "aa" };
         User user = new(userDTO.Password) { Id = Guid.NewGuid(), Email = userDTO.Email };
-        _uowMock.Setup(r => r.Users.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>(), CancellationToken.None)).ReturnsAsync(user);
+        _ = _uowMock.Setup(r => r.Users.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>(), CancellationToken.None)).ReturnsAsync(user);
 
         // Act
-        var result = (_authService.LoginAsync(userDTO)).Result;
+        User? result = _authService.LoginAsync(userDTO).Result;
 
         // Assert
         Assert.AreEqual(user.Email, result!.Email);

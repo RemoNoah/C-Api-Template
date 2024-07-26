@@ -10,22 +10,22 @@ public class JWTokenGenerator
 {
     public string GenerateToken(User user, string secretKey, int expirationMinutes, string issuer, string audience)
     {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(secretKey));
+        SigningCredentials credentials = new(securityKey, SecurityAlgorithms.HmacSha256);
 
-        List<Claim> claims = new()
-        {
+        List<Claim> claims =
+        [
             new Claim(JwtRegisteredClaimNames.Name, user.Username),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-        };
+        ];
 
         foreach (Role role in user.Roles)
         {
             claims.Add(new Claim(ClaimTypes.Role, role?.Name ?? string.Empty));
         }
 
-        var token = new JwtSecurityToken(
+        JwtSecurityToken token = new(
             issuer: issuer,
             audience: audience,
             claims: claims,

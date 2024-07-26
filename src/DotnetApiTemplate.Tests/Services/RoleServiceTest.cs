@@ -38,10 +38,10 @@ public class RoleServiceTest
         // Arrange
         List<Role> roleDTOs = [new() { Id = Guid.NewGuid(), Name = "Test" }, new() { Id = Guid.NewGuid(), Name = "Test" }, new() { Id = Guid.NewGuid(), Name = "Test" }];
 
-        _uowMock.Setup(u => u.Roles.GetAllAsync()).ReturnsAsync(roleDTOs);
+        _ = _uowMock.Setup(u => u.Roles.GetAllAsync()).ReturnsAsync(roleDTOs);
 
         // Act
-        var result = await _roleService.GetAllWithoutId();
+        IEnumerable<RoleWithoutIdDTO> result = await _roleService.GetAllWithoutId();
 
         // Assert
         Assert.AreEqual(roleDTOs.Count, result.Count());
@@ -54,10 +54,10 @@ public class RoleServiceTest
         // Arrange
         List<Role> roleDTOs = [new() { Id = Guid.NewGuid(), Name = "Test" }, new() { Id = Guid.NewGuid(), Name = "Test" }, new() { Id = Guid.NewGuid(), Name = "Test" }];
 
-        _uowMock.Setup(u => u.Roles.GetAllAsync()).ReturnsAsync(roleDTOs);
+        _ = _uowMock.Setup(u => u.Roles.GetAllAsync()).ReturnsAsync(roleDTOs);
 
         // Act
-        var result = await _roleService.GetAllWithId();
+        IEnumerable<RoleWithIdDTO> result = await _roleService.GetAllWithId();
 
         // Assert
         Assert.AreEqual(roleDTOs.Count, result.Count());
@@ -71,10 +71,10 @@ public class RoleServiceTest
         // Arrange
         Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
 
-        _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(role);
+        _ = _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(role);
 
         // Act
-        var result = await _roleService.GetIdByName(role.Name);
+        Guid result = await _roleService.GetIdByName(role.Name);
 
         // Assert
         Assert.AreEqual(role.Id.ToString(), result.ToString());
@@ -86,10 +86,10 @@ public class RoleServiceTest
         // Arrange
         Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
 
-        _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(role);
+        _ = _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(role);
 
         // Act
-        var result = await _roleService.GetNameById(role.Id);
+        string result = await _roleService.GetNameById(role.Id);
 
         // Assert
         Assert.AreEqual(role.Name, result);
@@ -103,10 +103,10 @@ public class RoleServiceTest
         RoleWithoutIdDTO roleWithoutDTO = new() { Name = role.Name };
         string expectedName = null!;
 
-        _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(role);
+        _ = _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(role);
 
         // Act
-        var result = await _roleService.Create(roleWithoutDTO);
+        RoleWithoutIdDTO result = await _roleService.Create(roleWithoutDTO);
 
         // Assert
         Assert.AreEqual(expectedName, result.Name);
@@ -119,10 +119,10 @@ public class RoleServiceTest
         Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
         RoleWithoutIdDTO roleWithoutDTO = new() { Name = role.Name };
 
-        _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(null as Role);
+        _ = _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(null as Role);
 
         // Act
-        var result = await _roleService.Create(roleWithoutDTO);
+        RoleWithoutIdDTO result = await _roleService.Create(roleWithoutDTO);
 
         // Assert
         Assert.AreEqual(roleWithoutDTO.Name, result.Name);
@@ -135,10 +135,10 @@ public class RoleServiceTest
         Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
         RoleWithoutIdDTO roleWithoutDTO = new() { Name = role.Name };
 
-        _uowMock.Setup(u => u.Roles.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(null as Role);
+        _ = _uowMock.Setup(u => u.Roles.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(null as Role);
 
         // Act
-        var result = await _roleService.DeleteById(role.Id);
+        bool result = await _roleService.DeleteById(role.Id);
 
         // Assert
         Assert.IsFalse(result);
@@ -151,11 +151,11 @@ public class RoleServiceTest
         Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
         RoleWithoutIdDTO roleWithoutDTO = new() { Name = role.Name };
 
-        _uowMock.Setup(u => u.Roles.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(role);
-        _uowMock.Setup(u => u.Roles.Delete(It.IsAny<Role>()));
+        _ = _uowMock.Setup(u => u.Roles.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(role);
+        _ = _uowMock.Setup(u => u.Roles.Delete(It.IsAny<Role>()));
 
         // Act
-        var result = await _roleService.DeleteById(role.Id);
+        bool result = await _roleService.DeleteById(role.Id);
 
         // Assert
         Assert.IsTrue(result);
@@ -168,11 +168,11 @@ public class RoleServiceTest
         Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
         RoleWithoutIdDTO roleWithoutDTO = new() { Name = role.Name };
 
-        _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(role);
-        _uowMock.Setup(u => u.Roles.Delete(It.IsAny<Role>()));
+        _ = _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(role);
+        _ = _uowMock.Setup(u => u.Roles.Delete(It.IsAny<Role>()));
 
         // Act
-        var result = await _roleService.DeleteByName(role.Name);
+        bool result = await _roleService.DeleteByName(role.Name);
 
         // Assert
         Assert.IsTrue(result);
@@ -185,11 +185,11 @@ public class RoleServiceTest
         Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
         RoleWithoutIdDTO roleWithoutDTO = new() { Name = role.Name };
 
-        _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(null as Role);
-        _uowMock.Setup(u => u.Roles.Delete(It.IsAny<Role>()));
+        _ = _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(null as Role);
+        _ = _uowMock.Setup(u => u.Roles.Delete(It.IsAny<Role>()));
 
         // Act
-        var result = await _roleService.DeleteByName(role.Name);
+        bool result = await _roleService.DeleteByName(role.Name);
 
         // Assert
         Assert.IsFalse(result);
@@ -203,11 +203,11 @@ public class RoleServiceTest
         RoleWithIdDTO roleWithDTO = new() { Name = role.Name, Id = role.Id };
         string expectedName = null!;
 
-        _uowMock.Setup(u => u.Roles.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(null as Role);
-        _uowMock.Setup(u => u.Roles.Update(It.IsAny<Role>()));
+        _ = _uowMock.Setup(u => u.Roles.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(null as Role);
+        _ = _uowMock.Setup(u => u.Roles.Update(It.IsAny<Role>()));
 
         // Act
-        var result = await _roleService.UpdateById(roleWithDTO);
+        RoleWithoutIdDTO result = await _roleService.UpdateById(roleWithDTO);
 
         // Assert
         Assert.AreEqual(expectedName, result.Name);
@@ -220,11 +220,11 @@ public class RoleServiceTest
         Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
         RoleWithIdDTO roleWithDTO = new() { Name = role.Name, Id = role.Id };
 
-        _uowMock.Setup(u => u.Roles.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(role);
-        _uowMock.Setup(u => u.Roles.Update(It.IsAny<Role>()));
+        _ = _uowMock.Setup(u => u.Roles.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(role);
+        _ = _uowMock.Setup(u => u.Roles.Update(It.IsAny<Role>()));
 
         // Act
-        var result = await _roleService.UpdateById(roleWithDTO);
+        RoleWithoutIdDTO result = await _roleService.UpdateById(roleWithDTO);
 
         // Assert
         Assert.AreEqual(role.Name, result.Name);
@@ -238,11 +238,11 @@ public class RoleServiceTest
         RoleUpdateByOldNameDTO roleUpdateByOldNameDTO = new() { OldName = role.Name, NewName = "test" };
         string expectedName = null!;
 
-        _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(null as Role);
-        _uowMock.Setup(u => u.Roles.Update(It.IsAny<Role>()));
+        _ = _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(null as Role);
+        _ = _uowMock.Setup(u => u.Roles.Update(It.IsAny<Role>()));
 
         // Act
-        var result = await _roleService.UpdateByOldName(roleUpdateByOldNameDTO);
+        RoleWithoutIdDTO result = await _roleService.UpdateByOldName(roleUpdateByOldNameDTO);
 
         // Assert
         Assert.AreEqual(expectedName, result.Name);
@@ -255,11 +255,11 @@ public class RoleServiceTest
         Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
         RoleUpdateByOldNameDTO roleUpdateByOldNameDTO = new() { OldName = role.Name, NewName = "test" };
 
-        _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(role);
-        _uowMock.Setup(u => u.Roles.Update(It.IsAny<Role>()));
+        _ = _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(role);
+        _ = _uowMock.Setup(u => u.Roles.Update(It.IsAny<Role>()));
 
         // Act
-        var result = await _roleService.UpdateByOldName(roleUpdateByOldNameDTO);
+        RoleWithoutIdDTO result = await _roleService.UpdateByOldName(roleUpdateByOldNameDTO);
 
         // Assert
         Assert.AreEqual(roleUpdateByOldNameDTO.NewName, result.Name);

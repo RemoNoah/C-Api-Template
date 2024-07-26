@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
 using System.Security.Claims;
 
-namespace Extranet.Shared.Tests.Backend.Auth;
+namespace DotnetApiTemplate.Tests.Auth;
 
 [TestClass]
 public class AccessibleByTest
@@ -39,7 +39,7 @@ public class AccessibleByTest
         Guid userId = Guid.NewGuid();
         ActionExecutingContext context = CreateActionExecutingContext(
             userId,
-            new List<string>(),
+            [],
             new Dictionary<string, object>()
             {
                 {"userId", userId}
@@ -63,7 +63,7 @@ public class AccessibleByTest
         // Arrange
         ActionExecutingContext context = CreateActionExecutingContext(
             Guid.NewGuid(),
-            new List<string>(),
+            [],
             new Dictionary<string, object>()
             {
                 {"userId", Guid.NewGuid()}
@@ -88,7 +88,7 @@ public class AccessibleByTest
         // Arrange
         ActionExecutingContext context = CreateActionExecutingContext(
             Guid.NewGuid(),
-            new List<string>(),
+            [],
             new Dictionary<string, object>()
             {
                 {"userId", Guid.NewGuid()}
@@ -114,7 +114,7 @@ public class AccessibleByTest
         // Arrange
         ActionExecutingContext context = CreateActionExecutingContext(
             Guid.NewGuid(),
-            new List<string>(),
+            [],
             new Dictionary<string, object>()
             {
                 {"notUserId", Guid.NewGuid()}
@@ -153,7 +153,7 @@ public class AccessibleByTest
         Guid userId = Guid.NewGuid();
         ActionExecutingContext context = CreateActionExecutingContext(
             userId,
-            new List<string>(),
+            [],
             new Dictionary<string, object>()
             {
                 {"simpleDTO", new SimpleDTOWithUserId(userId)}
@@ -178,7 +178,7 @@ public class AccessibleByTest
         Guid userId = Guid.NewGuid();
         ActionExecutingContext context = CreateActionExecutingContext(
             userId,
-            new List<string>(),
+            [],
             new Dictionary<string, object>()
             {
                 {"simpleDTO", new SimpleDTOWithUserId()}
@@ -200,7 +200,7 @@ public class AccessibleByTest
     private class SimpleDTOWithoutUserId
     {
         public Guid Id { get; set; }
-        public string SomeData { get; set; }
+        public required string SomeData { get; set; }
     }
 
     /// <summary>
@@ -213,7 +213,7 @@ public class AccessibleByTest
         // Arrange
         ActionExecutingContext context = CreateActionExecutingContext(
             Guid.NewGuid(),
-            new List<string>(),
+            [],
             new Dictionary<string, object>()
             {
                 {"simpleDTO", new SimpleDTOWithoutUserId()}
@@ -241,13 +241,13 @@ public class AccessibleByTest
                 new ActionDescriptor(),
                 new ModelStateDictionary()
             ),
-            new List<IFilterMetadata>(),
-            (parameters ?? new Dictionary<string, object>())!,
+            [],
+            (parameters ?? [])!,
             controller: null!
         );
 
-        actionExecutingContext.ActionDescriptor.Parameters = new List<ParameterDescriptor>();   // Add all parameters from the dictionary to the ActionDescriptor
-        foreach (KeyValuePair<string, object> parameter in parameters ?? new Dictionary<string, object>())
+        actionExecutingContext.ActionDescriptor.Parameters = [];   // Add all parameters from the dictionary to the ActionDescriptor
+        foreach (KeyValuePair<string, object> parameter in parameters ?? [])
         {
             actionExecutingContext.ActionDescriptor.Parameters.Add(new ParameterDescriptor()
             {
@@ -258,12 +258,12 @@ public class AccessibleByTest
 
         actionExecutingContext.Result = new OkResult();
 
-        List<Claim> claims = new()
-        {
+        List<Claim> claims =
+        [
             new Claim(AppClaimTypes.Id, (userId ?? Guid.Empty).ToString()),
-            new Claim(ClaimTypes.NameIdentifier, (userId ?? Guid.Empty).ToString())
-        };
-        claims.AddRange(from role in roles ?? new List<string>() select new Claim(ClaimTypes.Role, role ?? string.Empty));
+            new Claim(ClaimTypes.NameIdentifier, (userId ?? Guid.Empty).ToString()),
+            .. from role in roles ?? [] select new Claim(ClaimTypes.Role, role ?? string.Empty),
+        ];
 
         actionExecutingContext.HttpContext.User = new ClaimsPrincipal(
             new ClaimsIdentity(claims)

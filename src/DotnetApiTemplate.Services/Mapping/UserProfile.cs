@@ -2,7 +2,7 @@
 using DotnetApiTemplate.Domain.DTO.User;
 using DotnetApiTemplate.Domain.Models;
 
-namespace DotnetApiTemplate.Backend.Services.Mapping;
+namespace DotnetApiTemplate.Services.Mapping;
 
 /// <summary>
 /// Initializes a new instance of the <see cref="UserProfile"/> class.

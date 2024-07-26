@@ -13,7 +13,7 @@ public class UserTest
         string salt = "testSalt";
         string hash = "r1IAISBN7yRSCxBf3yuvd90FwBDwJ4l2mrhcrYasoCc=";
 
-        User user = new User
+        User user = new()
         {
             Salt = salt,
             Hash = hash
@@ -33,7 +33,7 @@ public class UserTest
         string password = "testPassword";
 
         // Act
-        User user = new User(password);
+        User user = new(password);
 
         // Assert
         Assert.IsNotNull(user.Salt);

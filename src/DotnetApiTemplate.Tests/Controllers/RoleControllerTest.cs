@@ -27,7 +27,7 @@ public class RoleControllerTest
         _ = _roleServiceMock.Setup(r => r.GetAllWithoutId()).ReturnsAsync(roleDTOs);
 
         // Act
-        var actual = await _roleController.GetAllWithoutId();
+        ActionResult<IEnumerable<RoleWithoutIdDTO>> actual = await _roleController.GetAllWithoutId();
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(OkObjectResult));
@@ -52,7 +52,7 @@ public class RoleControllerTest
         _ = _roleServiceMock.Setup(r => r.GetAllWithId()).ReturnsAsync(roleDTOs);
 
         // Act
-        var actual = await _roleController.GetAllWithId();
+        ActionResult<IEnumerable<RoleWithoutIdDTO>> actual = await _roleController.GetAllWithId();
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(OkObjectResult));
@@ -75,7 +75,7 @@ public class RoleControllerTest
         string name = "";
 
         // Act
-        var actual = await _roleController.GetIdByName(name);
+        ActionResult<Guid> actual = await _roleController.GetIdByName(name);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -100,7 +100,7 @@ public class RoleControllerTest
         _ = _roleServiceMock.Setup(r => r.GetIdByName(It.IsAny<string>())).ReturnsAsync(Guid.Empty);
 
         // Act
-        var actual = await _roleController.GetIdByName(name);
+        ActionResult<Guid> actual = await _roleController.GetIdByName(name);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -125,7 +125,7 @@ public class RoleControllerTest
         _ = _roleServiceMock.Setup(r => r.GetIdByName(It.IsAny<string>())).ReturnsAsync(Guid.NewGuid());
 
         // Act
-        var actual = await _roleController.GetIdByName(name);
+        ActionResult<Guid> actual = await _roleController.GetIdByName(name);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(OkObjectResult));
@@ -148,7 +148,7 @@ public class RoleControllerTest
         Guid id = Guid.Empty;
 
         // Act
-        var actual = await _roleController.GetNameById(id);
+        ActionResult<string> actual = await _roleController.GetNameById(id);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -173,7 +173,7 @@ public class RoleControllerTest
         _ = _roleServiceMock.Setup(r => r.GetNameById(It.IsAny<Guid>())).ReturnsAsync("");
 
         // Act
-        var actual = await _roleController.GetNameById(id);
+        ActionResult<string> actual = await _roleController.GetNameById(id);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -198,7 +198,7 @@ public class RoleControllerTest
         _ = _roleServiceMock.Setup(r => r.GetNameById(It.IsAny<Guid>())).ReturnsAsync("Test");
 
         // Act
-        var actual = await _roleController.GetNameById(id);
+        ActionResult<string> actual = await _roleController.GetNameById(id);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(OkObjectResult));
@@ -221,7 +221,7 @@ public class RoleControllerTest
         RoleWithoutIdDTO role = new() { Name = "" };
 
         // Act
-        var actual = await _roleController.Create(role);
+        ActionResult<RoleWithoutIdDTO> actual = await _roleController.Create(role);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -244,7 +244,7 @@ public class RoleControllerTest
         RoleWithoutIdDTO role = null!;
 
         // Act
-        var actual = await _roleController.Create(role);
+        ActionResult<RoleWithoutIdDTO> actual = await _roleController.Create(role);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -269,7 +269,7 @@ public class RoleControllerTest
         _ = _roleServiceMock.Setup(r => r.Create(It.IsAny<RoleWithoutIdDTO>()))!.ReturnsAsync(new RoleWithoutIdDTO());
 
         // Act
-        var actual = await _roleController.Create(role);
+        ActionResult<RoleWithoutIdDTO> actual = await _roleController.Create(role);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -294,7 +294,7 @@ public class RoleControllerTest
         _ = _roleServiceMock.Setup(r => r.Create(It.IsAny<RoleWithoutIdDTO>())).ReturnsAsync(role);
 
         // Act
-        var actual = await _roleController.Create(role);
+        ActionResult<RoleWithoutIdDTO> actual = await _roleController.Create(role);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(OkObjectResult));
@@ -317,7 +317,7 @@ public class RoleControllerTest
         RoleWithIdDTO roleWithIdDTO = null!;
 
         // Act
-        var actual = await _roleController.UpdateById(roleWithIdDTO);
+        ActionResult<RoleWithoutIdDTO> actual = await _roleController.UpdateById(roleWithIdDTO);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -340,7 +340,7 @@ public class RoleControllerTest
         RoleWithIdDTO roleWithIdDTO = new() { Id = Guid.NewGuid(), Name = "" };
 
         // Act
-        var actual = await _roleController.UpdateById(roleWithIdDTO);
+        ActionResult<RoleWithoutIdDTO> actual = await _roleController.UpdateById(roleWithIdDTO);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -366,7 +366,7 @@ public class RoleControllerTest
         _ = _roleServiceMock.Setup(r => r.UpdateById(It.IsAny<RoleWithIdDTO>()))!.ReturnsAsync(new RoleWithoutIdDTO());
 
         // Act
-        var actual = await _roleController.UpdateById(roleWithIdDTO);
+        ActionResult<RoleWithoutIdDTO> actual = await _roleController.UpdateById(roleWithIdDTO);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -392,7 +392,7 @@ public class RoleControllerTest
         _ = _roleServiceMock.Setup(r => r.UpdateById(It.IsAny<RoleWithIdDTO>())).ReturnsAsync(roleWithoutIdDTO);
 
         // Act
-        var actual = await _roleController.UpdateById(roleWithIdDTO);
+        ActionResult<RoleWithoutIdDTO> actual = await _roleController.UpdateById(roleWithIdDTO);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(OkObjectResult));
@@ -416,7 +416,7 @@ public class RoleControllerTest
         RoleUpdateByOldNameDTO roleUpdateByOldNameDTO = new() { NewName = roleWithoutIdDTO.Name, OldName = "" };
 
         // Act
-        var actual = await _roleController.UpdateByOldName(roleUpdateByOldNameDTO);
+        ActionResult<RoleWithoutIdDTO> actual = await _roleController.UpdateByOldName(roleUpdateByOldNameDTO);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -442,7 +442,7 @@ public class RoleControllerTest
         _ = _roleServiceMock.Setup(r => r.UpdateByOldName(It.IsAny<RoleUpdateByOldNameDTO>())).ReturnsAsync(new RoleWithoutIdDTO());
 
         // Act
-        var actual = await _roleController.UpdateByOldName(roleUpdateByOldNameDTO);
+        ActionResult<RoleWithoutIdDTO> actual = await _roleController.UpdateByOldName(roleUpdateByOldNameDTO);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -468,7 +468,7 @@ public class RoleControllerTest
         _ = _roleServiceMock.Setup(r => r.UpdateByOldName(It.IsAny<RoleUpdateByOldNameDTO>())).ReturnsAsync(roleWithoutIdDTO);
 
         // Act
-        var actual = await _roleController.UpdateByOldName(roleUpdateByOldNameDTO);
+        ActionResult<RoleWithoutIdDTO> actual = await _roleController.UpdateByOldName(roleUpdateByOldNameDTO);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(OkObjectResult));
@@ -493,7 +493,7 @@ public class RoleControllerTest
         Guid id = Guid.Empty;
 
         // Act
-        var actual = await _roleController.DeleteById(id);
+        ActionResult<bool> actual = await _roleController.DeleteById(id);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -518,7 +518,7 @@ public class RoleControllerTest
         _ = _roleServiceMock.Setup(r => r.DeleteById(It.IsAny<Guid>())).ReturnsAsync(false);
 
         // Act
-        var actual = await _roleController.DeleteById(id);
+        ActionResult<bool> actual = await _roleController.DeleteById(id);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -543,7 +543,7 @@ public class RoleControllerTest
         _ = _roleServiceMock.Setup(r => r.DeleteById(It.IsAny<Guid>())).ReturnsAsync(true);
 
         // Act
-        var actual = await _roleController.DeleteById(id);
+        ActionResult<bool> actual = await _roleController.DeleteById(id);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(OkObjectResult));
@@ -566,7 +566,7 @@ public class RoleControllerTest
         string name = "";
 
         // Act
-        var actual = await _roleController.DeleteByName(name);
+        ActionResult<bool> actual = await _roleController.DeleteByName(name);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -591,7 +591,7 @@ public class RoleControllerTest
         _ = _roleServiceMock.Setup(r => r.DeleteByName(It.IsAny<string>())).ReturnsAsync(false);
 
         // Act
-        var actual = await _roleController.DeleteByName(name);
+        ActionResult<bool> actual = await _roleController.DeleteByName(name);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -616,7 +616,7 @@ public class RoleControllerTest
         _ = _roleServiceMock.Setup(r => r.DeleteByName(It.IsAny<string>())).ReturnsAsync(true);
 
         // Act
-        var actual = await _roleController.DeleteByName(name);
+        ActionResult<bool> actual = await _roleController.DeleteByName(name);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(OkObjectResult));

@@ -33,7 +33,7 @@ public class DotnetApiTemplateContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer(_configuration!.GetConnectionString("Default"));
+            _ = optionsBuilder.UseSqlServer(_configuration!.GetConnectionString("Default"));
         }
     }
 
@@ -52,7 +52,7 @@ public class DotnetApiTemplateContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         // Seed data
-        modelBuilder.Entity<Role>().HasData(
+        _ = modelBuilder.Entity<Role>().HasData(
             new Role { Id = Guid.NewGuid(), Name = "Admin" },
             new Role { Id = Guid.NewGuid(), Name = "Client" }
         );

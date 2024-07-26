@@ -19,26 +19,31 @@ public class AuthService(IUnitOfWork unitOfWork) : IAuthService
     public async Task<User?> LoginAsync(UserLoginDTO userLoginDto)
     {
         if (userLoginDto == null)
+        {
             return null;
+        }
 
         User? user = await _unitOfWork.Users.GetFirstOrDefaultAsync(um => um.Email == userLoginDto.Email);
-        if (user != null && userLoginDto.Email != string.Empty && !string.IsNullOrEmpty(user.Salt)
-            && user.VerifyPassword(userLoginDto.Password))
-            return user;
-
-        return null;
+        return user != null && userLoginDto.Email != string.Empty && !string.IsNullOrEmpty(user.Salt)
+            && user.VerifyPassword(userLoginDto.Password)
+            ? user
+            : null;
     }
 
     /// <inheritdoc/>
     public async Task<User?> RegisterAsync(UserRegistrationDTO user)
     {
         if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(user.Password))
+        {
             return null;
+        }
 
-        User? userWithEmail = (await _unitOfWork.Users.GetFirstOrDefaultAsync(x => x.Email == user.Email));
+        User? userWithEmail = await _unitOfWork.Users.GetFirstOrDefaultAsync(x => x.Email == user.Email);
 
         if (userWithEmail != null)
+        {
             return null;
+        }
 
         User userModel = new(user.Password)
         {

@@ -21,7 +21,7 @@ public class RoleService(IUnitOfWork unitOfWork, IMapper mapper) : IRoleService
     public async Task<IEnumerable<RoleWithoutIdDTO>> GetAllWithoutId()
     {
         IEnumerable<RoleWithoutIdDTO> roles = (await _unitOfWork.Roles.GetAllAsync())
-            .Select(r => _mapper.Map<RoleWithoutIdDTO>(r));
+            .Select(_mapper.Map<RoleWithoutIdDTO>);
         return roles;
     }
 
@@ -29,7 +29,7 @@ public class RoleService(IUnitOfWork unitOfWork, IMapper mapper) : IRoleService
     public async Task<IEnumerable<RoleWithIdDTO>> GetAllWithId()
     {
         IEnumerable<RoleWithIdDTO> roles = (await _unitOfWork.Roles.GetAllAsync())
-            .Select(r => _mapper.Map<RoleWithIdDTO>(r));
+            .Select(_mapper.Map<RoleWithIdDTO>);
         return roles;
     }
 
@@ -53,7 +53,9 @@ public class RoleService(IUnitOfWork unitOfWork, IMapper mapper) : IRoleService
         Role? existingRole = await _unitOfWork.Roles.GetFirstOrDefaultAsync(r => r.Name == role.Name);
 
         if (existingRole != null)
+        {
             return new();
+        }
 
         Role newRole = _mapper.Map<Role>(role);
         newRole.Id = Guid.NewGuid();
@@ -69,7 +71,9 @@ public class RoleService(IUnitOfWork unitOfWork, IMapper mapper) : IRoleService
         Role? existingRole = await _unitOfWork.Roles.GetByIdAsync(role.Id);
 
         if (existingRole == null)
+        {
             return new();
+        }
 
         Role updatedRole = _mapper.Map<Role>(role);
 
@@ -85,7 +89,9 @@ public class RoleService(IUnitOfWork unitOfWork, IMapper mapper) : IRoleService
         Role? existingRole = await _unitOfWork.Roles.GetFirstOrDefaultAsync(r => r.Name == role.OldName);
 
         if (existingRole == null)
+        {
             return new();
+        }
 
         Role updatedRole = _mapper.Map<Role>(role);
         updatedRole.Id = existingRole.Id;

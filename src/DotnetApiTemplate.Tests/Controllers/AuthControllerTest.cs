@@ -17,10 +17,10 @@ public class AuthControllerTest
     [TestInitialize]
     public void Setup()
     {
-        List<KeyValuePair<string, string?>> inMemorySettings = new()
-        {
+        List<KeyValuePair<string, string?>> inMemorySettings =
+        [
             new KeyValuePair<string, string?>("Jwt:Key", "JWT_KEYqeipruhgyxcknpoaerjtowperituldkcbnklsdnövmxlckvj0arituq'riewüpfoasvlkmcxyoijv0'w8üaerpjadskvmcxlkmvölkjapofijuwpoiuerj")
-        };
+        ];
 
         IConfiguration configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(inMemorySettings)
@@ -36,7 +36,7 @@ public class AuthControllerTest
         UserRegistrationDTO newUser = null!;
 
         // Act
-        var actual = _authController.Register(newUser);
+        Task<ActionResult> actual = _authController.Register(newUser);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -59,7 +59,7 @@ public class AuthControllerTest
         UserRegistrationDTO newUser = new();
 
         // Act
-        var actual = _authController.Register(newUser);
+        Task<ActionResult> actual = _authController.Register(newUser);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -84,7 +84,7 @@ public class AuthControllerTest
         _ = _authServiceMock.Setup(r => r.RegisterAsync(It.IsAny<UserRegistrationDTO>())).ReturnsAsync(null as User);
 
         // Act
-        var actual = _authController.Register(newUser);
+        Task<ActionResult> actual = _authController.Register(newUser);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -110,7 +110,7 @@ public class AuthControllerTest
         _ = _authServiceMock.Setup(r => r.RegisterAsync(It.IsAny<UserRegistrationDTO>())).ReturnsAsync(user);
 
         // Act
-        var actual = _authController.Register(newUser);
+        Task<ActionResult> actual = _authController.Register(newUser);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(OkObjectResult));
@@ -134,7 +134,7 @@ public class AuthControllerTest
         UserLoginDTO user = null!;
 
         // Act
-        var actual = _authController.Login(user);
+        Task<ActionResult> actual = _authController.Login(user);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -157,7 +157,7 @@ public class AuthControllerTest
         UserLoginDTO user = new();
 
         // Act
-        var actual = _authController.Login(user);
+        Task<ActionResult> actual = _authController.Login(user);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -182,7 +182,7 @@ public class AuthControllerTest
         _ = _authServiceMock.Setup(r => r.RegisterAsync(It.IsAny<UserRegistrationDTO>())).ReturnsAsync(null as User);
 
         // Act
-        var actual = _authController.Login(user);
+        Task<ActionResult> actual = _authController.Login(user);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(BadRequestObjectResult));
@@ -208,7 +208,7 @@ public class AuthControllerTest
         _ = _authServiceMock.Setup(r => r.LoginAsync(It.IsAny<UserLoginDTO>())).ReturnsAsync(logedInUser);
 
         // Act
-        var actual = _authController.Login(user);
+        Task<ActionResult> actual = _authController.Login(user);
 
         // Assert
         Assert.IsInstanceOfType(actual.Result, typeof(OkObjectResult));
