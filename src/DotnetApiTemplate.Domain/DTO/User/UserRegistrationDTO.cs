@@ -6,11 +6,6 @@
     public class UserRegistrationDTO
     {
         /// <summary>
-        /// Gets or sets the Id.
-        /// </summary>
-        public Guid Id { get; set; }
-
-        /// <summary>
         /// Passwort set by user.
         /// </summary>
         public string Password { get; set; } = null!;
