@@ -12,8 +12,8 @@ namespace DotnetApiTemplate.Services.Services;
 /// This class implements the <see cref="IAuthService"/> interface.
 /// </summary>
 /// <param name="unitOfWork"> <see cref="UnitOfWork"/> </param>
-public class RoleService(IUnitOfWork unitOfWork, IMapper mapper) : IRoleService 
-{ 
+public class RoleService(IUnitOfWork unitOfWork, IMapper mapper) : IRoleService
+{
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
 

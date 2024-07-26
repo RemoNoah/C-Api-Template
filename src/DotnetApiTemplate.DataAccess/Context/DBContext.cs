@@ -24,7 +24,7 @@ public class DotnetApiTemplateContext : DbContext
     /// Initializes a new instance of the <see cref="DotnetApiTemplateContext" /> class.
     /// </summary>
     /// <param name="options">The options.</param>
-    public DotnetApiTemplateContext(DbContextOptions<DotnetApiTemplateContext> options, IConfiguration configuration) : base(options) 
+    public DotnetApiTemplateContext(DbContextOptions<DotnetApiTemplateContext> options, IConfiguration configuration) : base(options)
     {
         _configuration = configuration;
     }

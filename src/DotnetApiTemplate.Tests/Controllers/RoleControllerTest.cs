@@ -22,7 +22,7 @@ public class RoleControllerTest
     public async Task GetAllWithoutId_ReturnsOK()
     {
         // Arrange
-        IEnumerable<RoleWithoutIdDTO> roleDTOs = [new() { Name="test"}, new() {Name ="test1" }];
+        IEnumerable<RoleWithoutIdDTO> roleDTOs = [new() { Name = "test" }, new() { Name = "test1" }];
 
         _ = _roleServiceMock.Setup(r => r.GetAllWithoutId()).ReturnsAsync(roleDTOs);
 
@@ -241,7 +241,7 @@ public class RoleControllerTest
     public async Task Create_DTOIsNull_ReturnsBadRequest()
     {
         // Arrange
-        RoleWithoutIdDTO role =null!;
+        RoleWithoutIdDTO role = null!;
 
         // Act
         var actual = await _roleController.Create(role);
@@ -289,7 +289,7 @@ public class RoleControllerTest
     public async Task Create_ReturnsOk()
     {
         // Arrange
-        RoleWithoutIdDTO role = new() { Name = "Test"};
+        RoleWithoutIdDTO role = new() { Name = "Test" };
 
         _ = _roleServiceMock.Setup(r => r.Create(It.IsAny<RoleWithoutIdDTO>())).ReturnsAsync(role);
 
@@ -387,7 +387,7 @@ public class RoleControllerTest
     {
         // Arrange
         RoleWithoutIdDTO roleWithoutIdDTO = new() { Name = "Test" };
-        RoleWithIdDTO roleWithIdDTO = new() {Id = Guid.NewGuid(), Name = roleWithoutIdDTO.Name };
+        RoleWithIdDTO roleWithIdDTO = new() { Id = Guid.NewGuid(), Name = roleWithoutIdDTO.Name };
 
         _ = _roleServiceMock.Setup(r => r.UpdateById(It.IsAny<RoleWithIdDTO>())).ReturnsAsync(roleWithoutIdDTO);
 

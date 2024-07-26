@@ -38,7 +38,7 @@ public class RoleServiceTest
     public async Task GetAllWithoutId_ReturnsRoles()
     {
         // Arrange
-        List<Role> roleDTOs = [new() {Id = Guid.NewGuid(), Name = "Test" }, new() { Id = Guid.NewGuid(), Name = "Test" }, new() { Id = Guid.NewGuid(), Name = "Test" }];
+        List<Role> roleDTOs = [new() { Id = Guid.NewGuid(), Name = "Test" }, new() { Id = Guid.NewGuid(), Name = "Test" }, new() { Id = Guid.NewGuid(), Name = "Test" }];
 
         _uowMock.Setup(u => u.Roles.GetAllAsync()).ReturnsAsync(roleDTOs);
 
@@ -102,7 +102,7 @@ public class RoleServiceTest
     {
         // Arrange
         Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
-        RoleWithoutIdDTO roleWithoutDTO = new() {  Name = role.Name };
+        RoleWithoutIdDTO roleWithoutDTO = new() { Name = role.Name };
         string expectedName = null!;
 
         _uowMock.Setup(u => u.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(role);
@@ -202,7 +202,7 @@ public class RoleServiceTest
     {
         // Arrange
         Role role = new() { Id = Guid.NewGuid(), Name = "Test" };
-        RoleWithIdDTO roleWithDTO = new() { Name = role.Name, Id = role.Id};
+        RoleWithIdDTO roleWithDTO = new() { Name = role.Name, Id = role.Id };
         string expectedName = null!;
 
         _uowMock.Setup(u => u.Roles.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(null as Role);

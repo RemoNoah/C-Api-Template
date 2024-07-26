@@ -35,7 +35,7 @@ public class AuthService(IUnitOfWork unitOfWork) : IAuthService
         if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(user.Password))
             return null;
 
-        User? userWithEmail= (await _unitOfWork.Users.GetFirstOrDefaultAsync(x => x.Email == user.Email));
+        User? userWithEmail = (await _unitOfWork.Users.GetFirstOrDefaultAsync(x => x.Email == user.Email));
 
         if (userWithEmail != null)
             return null;

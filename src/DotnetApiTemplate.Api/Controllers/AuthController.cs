@@ -42,7 +42,7 @@ public class AuthController : ControllerBase
 
         if (registeredUser != null)
             return Ok(_jwtGenerator.GenerateToken(registeredUser, _key, _expirationMinutes, _issuer, _audience));
-        
+
         return BadRequest("Email already Exists");
     }
 

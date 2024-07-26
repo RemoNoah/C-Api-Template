@@ -10,8 +10,9 @@ namespace DotnetApiTemplate.Backend.Services.Mapping;
 public class UserProfile : Profile
 {
     /// <summary>
-    /// Configures the AutoMapper mapping from <see cref="User"/> to <see cref="UserDTO"/>,
-    /// <see cref="User"/> to <see cref="VocationalTrainerDTO"/>.
+    /// Configures the AutoMapper mapping from 
+    /// <see cref="User"/> to <see cref="UserLoginDTO"/>,
+    /// <see cref="UserRegistrationDTO"/> to <see cref="User"/>.
     /// </summary>
     public UserProfile()
     {

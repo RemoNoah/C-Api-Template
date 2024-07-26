@@ -38,8 +38,8 @@ public class AuthServiceTest
     public void RegisterAsync_UserWasFound_ReturnsNull()
     {
         // Arrange
-        UserRegistrationDTO newUser = new() { Email = "a", Password = "a"};
-        User user = new() { Email =  newUser.Email };
+        UserRegistrationDTO newUser = new() { Email = "a", Password = "a" };
+        User user = new() { Email = newUser.Email };
 
         _uowMock.Setup(r => r.Users.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>(), CancellationToken.None)).ReturnsAsync(user);
 
@@ -78,7 +78,7 @@ public class AuthServiceTest
 
         _uowMock.Setup(r => r.Users.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>(), CancellationToken.None)).ReturnsAsync(null as User);
         _uowMock.Setup(r => r.Roles.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Role, bool>>>(), CancellationToken.None)).ReturnsAsync(new Role());
-        _uowMock.Setup(r => r.Users.GetAllAsync()).ReturnsAsync(new List<User>() { new()});
+        _uowMock.Setup(r => r.Users.GetAllAsync()).ReturnsAsync(new List<User>() { new() });
         _uowMock.Setup(r => r.Users.Create(It.IsAny<User>()));
 
         // Act
@@ -119,8 +119,8 @@ public class AuthServiceTest
     public void LoginAsync_UserCredentialsAreCorrect_ReturnsUser()
     {
         // Arrange
-        UserLoginDTO userDTO = new() { Email = "a", Password = "aa"};
-        User user = new(userDTO.Password) { Id = Guid.NewGuid(), Email = userDTO.Email};
+        UserLoginDTO userDTO = new() { Email = "a", Password = "aa" };
+        User user = new(userDTO.Password) { Id = Guid.NewGuid(), Email = userDTO.Email };
         _uowMock.Setup(r => r.Users.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>(), CancellationToken.None)).ReturnsAsync(user);
 
         // Act

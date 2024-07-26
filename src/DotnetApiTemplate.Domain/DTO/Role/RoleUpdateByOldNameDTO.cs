@@ -11,7 +11,7 @@ public class RoleUpdateByOldNameDTO
     public string OldName { get; set; } = null!;
 
     /// <summary>
-    /// Creates new name.
+    /// Gets or sets the new name.
     /// </summary>
     public string NewName { get; set; } = null!;
 }

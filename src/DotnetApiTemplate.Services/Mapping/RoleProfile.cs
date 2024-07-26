@@ -10,8 +10,12 @@ namespace DotnetApiTemplate.Services.Mapping;
 public class RoleProfile : Profile
 {
     /// <summary>
-    /// Configures the AutoMapper mapping from <see cref="User"/> to <see cref="UserDTO"/>,
-    /// <see cref="User"/> to <see cref="VocationalTrainerDTO"/>.
+    /// Configures the AutoMapper mapping from 
+    /// <see cref="Role"/> to <see cref="RoleWithIdDTO"/>,
+    /// <see cref="Role"/> to <see cref="RoleWithoutIdDTO"/>.
+    /// <see cref="RoleWithoutIdDTO"/> to <see cref="Role"/>.
+    /// <see cref="RoleWithIdDTO"/> to <see cref="Role"/>.
+    /// <see cref="RoleUpdateByOldNameDTO"/> to <see cref="Role"/>.
     /// </summary>
     public RoleProfile()
     {
