@@ -122,7 +122,7 @@ public class RoleController : ControllerBase
 
         bool result = await _roleService.DeleteById(id);
 
-        if (result)
+        if (!result)
             return BadRequest("Role was not found");
 
         return Ok("Role has been deleted");
@@ -138,7 +138,7 @@ public class RoleController : ControllerBase
 
         bool result = await _roleService.DeleteByName(name);
 
-        if (result)
+        if (!result)
             return BadRequest("Role was not found");
 
         return Ok("Role has been deleted");
