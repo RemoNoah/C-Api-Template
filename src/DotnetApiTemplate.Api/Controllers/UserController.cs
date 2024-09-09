@@ -1,7 +1,7 @@
-﻿using DotnetApiTemplate.Api.Auth;
-using DotnetApiTemplate.Domain.DTO;
+﻿using DotnetApiTemplate.Domain.DTO;
 using DotnetApiTemplate.Domain.Models;
 using DotnetApiTemplate.Domain.Services;
+using DotnetApiTemplate.Services.Services.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotnetApiTemplate.Api.Controllers;
@@ -18,16 +18,15 @@ public class UserController : ControllerBase
     private readonly string _audience;
     private readonly string _key;
 
-    public UserController(IConfiguration configuration, IUserService userService)
+    public UserController(IConfiguration configuration, IUserService userService, JwtTokenGenerator jwtGenerator)
     {
         _config = configuration;
         _userService = userService;
+        _jwtGenerator = jwtGenerator;
         _key = _config.GetValue<string>("Jwt:Key")!;
         _expirationMinutes = _config.GetValue<int>("Jwt:ExpireMinutes");
         _issuer = _config.GetValue<string>("Jwt:Issuer")!;
         _audience = _config.GetValue<string>("Jwt:Audience")!;
-
-        _jwtGenerator = new JwtTokenGenerator();
     }
 
     [HttpPost]
@@ -62,6 +61,6 @@ public class UserController : ControllerBase
         {
             return Ok(_jwtGenerator.GenerateToken(logedInUser, _key, _expirationMinutes, _issuer, _audience));
         }
-        return BadRequest("Username or Passwort are wrong");
+        return BadRequest("Username or Password are wrong");
     }
 }

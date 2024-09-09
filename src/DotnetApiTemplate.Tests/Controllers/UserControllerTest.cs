@@ -2,6 +2,7 @@
 using DotnetApiTemplate.Api.Controllers;
 using DotnetApiTemplate.Domain.Models;
 using DotnetApiTemplate.Domain.Services;
+using DotnetApiTemplate.Services.Services.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Moq;
@@ -13,6 +14,7 @@ public class UserControllerTest
 {
     private UserController _userController = null!;
     private readonly Mock<IUserService> _userServiceMock = new();
+    private readonly Mock<JwtTokenGenerator> _jwtTokenGeneratorMock = new();
 
     [TestInitialize]
     public void Setup()
@@ -26,7 +28,7 @@ public class UserControllerTest
             .AddInMemoryCollection(inMemorySettings)
             .Build();
 
-        _userController = new UserController(configuration, _userServiceMock.Object);
+        _userController = new UserController(configuration, _userServiceMock.Object, _jwtTokenGeneratorMock.Object);
     }
 
     [TestMethod]

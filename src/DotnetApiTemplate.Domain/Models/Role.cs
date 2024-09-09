@@ -19,4 +19,9 @@ public class Role
     /// Gets or sets the Users.
     /// </summary>
     public virtual ICollection<User> Users { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the SubRoles.
+    /// </summary>
+    public virtual ICollection<Role> SubRoles { get; set; } = null!;
 }

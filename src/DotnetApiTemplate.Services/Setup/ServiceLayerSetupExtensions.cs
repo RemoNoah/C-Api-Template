@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using DotnetApiTemplate.DataAccess.Setup;
 using DotnetApiTemplate.Domain.Services;
 using DotnetApiTemplate.Services.Services;
+using DotnetApiTemplate.Services.Services.Auth;
 
 namespace DotnetApiTemplate.Services.Setup;
 
@@ -20,6 +21,7 @@ public static class ServiceLayerSetupExtensions
     public static void AddServiceLayer(this IServiceCollection services, IConfiguration configuration)
     {
         _ = services.AddScoped<IUserService, UserService>();
+        _ = services.AddScoped<JwtTokenGenerator, JwtTokenGenerator>();
         services.AddDataBaseContext(configuration);
         services.AddUnitOfWork();
     }
