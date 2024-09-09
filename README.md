@@ -36,7 +36,7 @@ Install ef tool:
 dotnet tool install --global dotnet-ef
 ```
 
-Chnage to datAccess project:
+Change to dataAccess project:
 
 ```sh
 cd .\yourpath\DotnetApiTemplate.DataAccess\Migrations\
